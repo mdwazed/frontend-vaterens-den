@@ -1,0 +1,31 @@
+.btn {
+    padding: 8px 18px;
+    color: var(--txt-white);
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+    text-transform: capitalize;
+}
+
+.btn-sm {
+    padding: 5px 8px;
+    color: var(--txt-white);
+    border-radius: 2px;
+    box-shadow: var(--box-shadow);
+    margin: 5px;
+}
+
+.btn-danger {
+    background-color: var(--main-color-red);
+}
+
+.btn-success {
+    background-color: var(--main-color-green);
+}
+
+.btn-primary {
+    background-color: var(--main-color-blue);
+}
+
+.btn-warning {
+    background-color: var(--main-color-orange);
+}
