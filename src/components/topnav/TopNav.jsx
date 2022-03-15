@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom'
 
 import Dropdown from '../dropdown/Dropdown'
 
-import ThemeMenu from '../thememenu/ThemeMenu'
 
 import notifications from '../../assets/JsonData/notification.json'
 
@@ -21,7 +20,7 @@ const curr_user = {
 
 const renderNotificationItem = (item, index) => (
     <div className="notification-item" key={index}>
-        <i className={item.icon}></i>
+        <i className={item.icon} />
         <span>{item.content}</span>
     </div>
 )
@@ -40,7 +39,7 @@ const renderUserToggle = (user) => (
 const renderUserMenu =(item, index) => (
     <Link to='/' key={index}>
         <div className="notification-item">
-            <i className={item.icon}></i>
+            <i className={item.icon} />
             <span>{item.content}</span>
         </div>
     </Link>
@@ -51,7 +50,7 @@ const Topnav = () => {
         <div className='topnav'>
             <div className="topnav__search">
                 <input type="text" placeholder='Search here...' />
-                <i className='bx bx-search'></i>
+                <i className='bx bx-search' />
             </div>
             <div className="topnav__right">
                 <div className="topnav__right-item">
@@ -71,9 +70,6 @@ const Topnav = () => {
                         renderFooter={() => <Link to='/'>View All</Link>}
                     />
                     {/* dropdown here */}
-                </div>
-                <div className="topnav__right-item">
-                    <ThemeMenu/>
                 </div>
             </div>
         </div>

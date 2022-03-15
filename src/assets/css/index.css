@@ -346,6 +346,7 @@ template {
     display: none;
 }
 
+
 [hidden] {
     display: none !important;
 }
@@ -440,7 +441,12 @@ mark,
     padding-left: 0;
     list-style: none;
 }
-
+.avatar {
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    border-radius: 5%;
+}
 .list-inline-item {
     display: inline-block;
 }
@@ -8962,7 +8968,6 @@ a.text-dark:hover, a.text-dark:focus {
         border: 1px solid #ddd !important;
     }
 }
-/*# sourceMappingURL=bootstrap.css.map */
 
 :root {
     --main-bg: #ffffff;

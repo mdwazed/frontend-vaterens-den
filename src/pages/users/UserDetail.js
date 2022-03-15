@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import './UserDetail.css'
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 const UserDetail = (props) => {
     const initUserSate = {
@@ -57,7 +58,6 @@ const UserDetail = (props) => {
             setUser(response.data)
         })
     }, [props.match.params.id])
-    console.log(user)
     return (
         <div>
             <div className="row">
@@ -74,7 +74,7 @@ const UserDetail = (props) => {
                                     <div className="row">
                                         <div className="col-lg-4 col-md-5 xs-margin-30px-bottom">
                                             <div className="team-single-img">
-                                                <img src={user.photo} alt={user.full_name}/>
+                                                <img src={user.photo} alt={user.full_name} className={'img-thumbnail'}/>
                                             </div>
                                             <div
                                                 className="bg-light-gray padding-30px-all md-padding-25px-all sm-padding-20px-all text-center">
@@ -87,22 +87,22 @@ const UserDetail = (props) => {
                                                 <div className="margin-20px-top team-single-icons">
                                                     <ul className="no-margin">
                                                         <li>
-                                                            <a href="#">
+                                                            <a href={window.location.href}>
                                                                 <i className="fab fa-facebook-f"/>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#">
+                                                            <a href={window.location.href}>
                                                                 <i className="fab fa-twitter"/>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#">
+                                                            <a href={window.location.href}>
                                                                 <i className="fab fa-google-plus-g"/>
                                                             </a>
                                                         </li>
                                                         <li>
-                                                            <a href="#">
+                                                            <a href={window.location.href}>
                                                                 <i className="fab fa-instagram"/>
                                                             </a>
                                                         </li>
@@ -111,26 +111,26 @@ const UserDetail = (props) => {
                                             </div>
                                             <div className="bg-light-gray mt-4 p-3">
                                                     <h5>Jobs Applied</h5>
-                                                <a href="#" className="list-group-item list-group-item-action  border-0">
+                                                <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
                                                     MC Solution Looking for Python Dev <span className="badge badge-success float-right">Short Listed</span>
                                                 </a>
-                                                <a href="#" className="list-group-item list-group-item-action  border-0">
+                                                <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
                                                     Sapience Trio Looking For Frontend Dev <span className="badge badge-primary float-right">reviewed</span>
                                                 </a>
-                                                <a href="#" className="list-group-item list-group-item-action  border-0">
+                                                <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
                                                     F&R Looking for Senior Developer <span className="badge badge-danger float-right">rejected</span>
                                                 </a>
                                             </div>
                                             <div className="bg-light-gray mt-4 p-3">
                                                 <h5>All CV </h5>
                                                 <div className="list-group w-100">
-                                                    <a href="#" className="list-group-item list-group-item-action  border-0">
+                                                    <Link to={`/users/${props.match.params.id}/resume`} className="list-group-item list-group-item-action  border-0">
                                                         Python Developer resume  <span className="badge badge-secondary float-right">12 <i className="fa fa-eye" /></span>
-                                                    </a>
-                                                    <a href="#" className="list-group-item list-group-item-action  border-0">
+                                                    </Link>
+                                                    <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
                                                         Software Engineer resume  <span className="badge badge-secondary float-right">34 <i className="fa fa-eye" /></span>
                                                     </a>
-                                                    <a href="#" className="list-group-item list-group-item-action  border-0">
+                                                    <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
                                                         React Developer resume  <span className="badge badge-secondary float-right">0 <i className="fa fa-eye" /></span>
                                                     </a>
                                                 </div>

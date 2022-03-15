@@ -39,6 +39,8 @@ const Users = () => {
             title: 'Are you sure you want to delete this?',
             showCancelButton: true,
             confirmButtonText: 'Delete',
+            icon: 'question',
+            confirmButtonColor: 'red'
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {

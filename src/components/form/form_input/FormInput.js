@@ -1,32 +1,32 @@
-import React, { useContext } from 'react';
-import { FormContext } from '../Form';
+import React from 'react';
 
 function FormInput(props) {
-  const {
-    label,
-    type = 'text',
-    name,
-  } = props;
-
-  const formContext = useContext(FormContext);
-  const { form, handleFormChange } = formContext;
-
-  return (
-    <div className="FormInput">
-      <label>{label}</label>
-      <input
-        type={type}
-        name={name}
-        value={form[name]}
-        onChange={handleFormChange}
-      />
+    const {
+        label,
+        type = 'text',
+        name,
+        register,
+        className='form-control',
+        errors,
+        onChange,
+        onClick
+    } = props;
 
 
-        {/*<p className={'text-danger'}> {errors.gender && errors.gender.message ? errors.gender.message : null}</p>*/}
-        {/*<label htmlFor="gender"> Gender </label>*/}
-        {/*<input type="text" id={'gender'} {...register("gender", { required: "Gender is required.",})} />*/}
-    </div>
-  )
+    return (
+        <div className="FormInput">
+            <label htmlFor={name}>{label}</label>
+            <input
+                type={type}
+                className={className}
+                id={name}
+                {...register( name, {required: "This field is required",})}
+                onClick={onClick}
+                onChange={onChange}
+            />
+            <p className={'text-danger'}> {errors[name] && errors[name].message ? errors[name].message : null}</p>
+        </div>
+    )
 }
 
 export default FormInput;
