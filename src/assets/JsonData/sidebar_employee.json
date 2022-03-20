@@ -1,0 +1,22 @@
+[
+  {
+    "display_name": "Address",
+    "route": "/employee/address",
+    "icon": "bx bx-buildings"
+  },
+  {
+    "display_name": "CV",
+    "route": "/employee/cv",
+    "icon": "bx bx-file"
+  },
+  {
+    "display_name": "Education",
+    "route": "/employee/education",
+    "icon": "bx bxs-graduation"
+  },
+  {
+    "display_name": "Experience",
+    "route": "/employee/experience",
+    "icon": "bx bx-diamond"
+  }
+]

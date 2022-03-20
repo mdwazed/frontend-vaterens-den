@@ -6,6 +6,7 @@ function FormInput(props) {
         type = 'text',
         name,
         register,
+        required=false,
         className='form-control',
         errors,
         onChange,
@@ -20,7 +21,7 @@ function FormInput(props) {
                 type={type}
                 className={className}
                 id={name}
-                {...register( name, {required: "This field is required",})}
+                {...register( name, {required: "This field is required" ? required : required,})}
                 onClick={onClick}
                 onChange={onChange}
             />

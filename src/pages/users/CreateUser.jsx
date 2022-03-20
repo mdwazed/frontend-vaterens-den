@@ -1,12 +1,11 @@
 import React from "react";
 import {useForm} from "react-hook-form";
-import axios from "axios";
-import Swal from 'sweetalert2'
 
 import Button from "../../components/button/Button";
-import {useHistory} from "react-router-dom";
 import FormInput from "../../components/form/form_input/FormInput";
 import SelectInput from "../../components/form/form_input/SelectInput";
+import {create} from "../../utils/crud";
+import {useHistory} from "react-router-dom";
 
 const CreateUser = () => {
 
@@ -29,30 +28,9 @@ const CreateUser = () => {
         formData.append('phone', data.phone)
         formData.append('gender', data.gender)
         if (data.photo) formData.append('photo', data.photo[0])
-        try {
-            await axios.post(`${process.env.REACT_APP_API_ROOT_V1}user/`, formData).then(() => {
-                Swal.fire(
-                    'Success!',
-                    'User created successfully',
-                    'success'
-                ).then(() => {
-                    history.push(`/users/`)
-                })
-            })
-
-        } catch (error) {
-            if (error) {
-                let message = ''
-                let keys = Object.keys(error.response.data)
-                for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
-                Swal.fire(
-                    'Error',
-                    message,
-                    'error'
-                )
-            }
-
-        }
+        create(
+            formData, `${process.env.REACT_APP_API_ROOT_V1}user/`, history, '/users/'
+        )
     };
 
     return (

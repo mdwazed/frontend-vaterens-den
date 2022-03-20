@@ -4,9 +4,9 @@ import Button from "../../components/button/Button";
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
 import FormInput from "../../components/form/form_input/FormInput";
 import SelectInput from "../../components/form/form_input/SelectInput";
+import {update} from "../../utils/crud";
 
 const UpdateUser = (props) => {
     const {
@@ -27,11 +27,13 @@ const UpdateUser = (props) => {
         if (e.target.files.length !== 0) setPhoto(URL.createObjectURL(e.target.files[0]));
     };
     useEffect(() => {
+        console.log(`${process.env.REACT_APP_API_ROOT_V1}user/${props.match.params.id}/`)
         axios
             .get(`${process.env.REACT_APP_API_ROOT_V1}user/${props.match.params.id}/`)
             .then((response) => {
                 reset(response.data)
                 setPhoto(response.data.photo)
+                console.log(response.data)
             });
     }, [reset, props.match.params.id]);
 
@@ -43,30 +45,7 @@ const UpdateUser = (props) => {
         formData.append('phone', data.phone)
         formData.append('gender', data.gender)
         if (data.photo && data.photo !== photo) formData.append('photo', data.photo[0])
-        try {
-            await axios.put(`${process.env.REACT_APP_API_ROOT_V1}user/${props.match.params.id}/`, formData).then(() => {
-                Swal.fire(
-                    'Success!',
-                    'User updated successfully',
-                    'success'
-                ).then(() => {
-                    history.push(`/users/`)
-                })
-            })
-
-        } catch (error) {
-            if (error) {
-                let message = ''
-                let keys = Object.keys(error.response.data)
-                for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
-                await Swal.fire(
-                    'Error',
-                    message,
-                    'error'
-                )
-            }
-
-        }
+        await update(formData, `${process.env.REACT_APP_API_ROOT_V1}user/${props.match.params.id}/`, history, '/users/')
     };
     return (
         <div>

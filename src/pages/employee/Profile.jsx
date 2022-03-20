@@ -38,7 +38,13 @@ const UserDetail = (props) => {
             "educations": [],
             "experience": [],
             "trainings": [],
-            "cv": [],
+            "cv": {
+                "id": null,
+                "cv": null,
+                "career_objective": "",
+                "designation": "",
+                "social_links": null,
+            },
             "special_activities": [],
             "award": [],
             "armsservices": [],
@@ -105,7 +111,7 @@ const UserDetail = (props) => {
                                                 </div>
                                             </div>
                                             <div className="bg-light-gray mt-4 p-3">
-                                                    <h5>Jobs Applied</h5>
+                                                <h5>Jobs Applied</h5>
                                                 <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
                                                     MC Solution Looking for Python Dev <span className="badge badge-success float-right">Short Listed</span>
                                                 </a>
@@ -119,11 +125,15 @@ const UserDetail = (props) => {
                                             <div className="bg-light-gray mt-4 p-3">
                                                 <h5>All CV </h5>
                                                 <div className="list-group w-100">
-                                                    {user.employee.cv.map((c) => {
-                                                        return <Link to={`/employee/cv/${c.id}/detail`} className="list-group-item list-group-item-action  border-0">
-                                                            {c.designation}  <span className="badge badge-secondary float-right">12 <i className="fa fa-eye" /></span>
-                                                        </Link>
-                                                    })}
+                                                    <Link to={`/users/${props.match.params.id}/resume`} className="list-group-item list-group-item-action  border-0">
+                                                        Python Developer resume  <span className="badge badge-secondary float-right">12 <i className="fa fa-eye" /></span>
+                                                    </Link>
+                                                    <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
+                                                        Software Engineer resume  <span className="badge badge-secondary float-right">34 <i className="fa fa-eye" /></span>
+                                                    </a>
+                                                    <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
+                                                        React Developer resume  <span className="badge badge-secondary float-right">0 <i className="fa fa-eye" /></span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -134,7 +144,7 @@ const UserDetail = (props) => {
                                                     Career Objective
                                                 </h4>
                                                 <p className="no-margin-bottom">
-                                                    {/*{user.employee.cv[0].career_objective}*/}
+                                                    {user.employee.cv.career_objective}
                                                 </p>
                                                 <div className="contact-info-section margin-40px-tb">
                                                     <ul className="list-style9 no-margin">
@@ -193,8 +203,8 @@ const UserDetail = (props) => {
                                                                 <div className="col-md-7 col-7">
                                                                     {user.employee.trainings.map(e=>{
                                                                         return <div key={e.id} className={'border-bottom'}>
-                                                                             <p className={'lead'}>
-                                                                                  {e.name}
+                                                                            <p className={'lead'}>
+                                                                                {e.name}
                                                                             </p>
                                                                             <p>
                                                                                 Duration: {e.from_date} To {e.completion_date}

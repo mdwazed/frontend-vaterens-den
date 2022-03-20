@@ -1,12 +1,18 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
 import './sidebar.css'
 
 import logo from '../../assets/images/logo.png'
 
 import sidebar_items from '../../assets/JsonData/sidebar_routes.json'
+import sidebar_employee_menu from '../../assets/JsonData/sidebar_employee.json'
+
+const get_route_list = (pathname) => {
+    if (pathname.includes('employee') || pathname.includes('profile')) return  sidebar_employee_menu
+    else return sidebar_items
+}
 
 const SidebarItem = props => {
 
@@ -15,7 +21,7 @@ const SidebarItem = props => {
     return (
         <div className="sidebar__item">
             <div className={`sidebar__item-inner ${active}`}>
-                <i className={props.icon}></i>
+                <i className={props.icon} />
                 <span>
                     {props.title}
                 </span>
@@ -25,16 +31,17 @@ const SidebarItem = props => {
 }
 
 const Sidebar = props => {
-
-    const activeItem = sidebar_items.findIndex(item => item.route === props.location.pathname)
-
+    const route_list = get_route_list(props.location.pathname)
+    const activeItem = route_list.findIndex(item => item.route === props.location.pathname)
     return (
         <div className='sidebar'>
-            <div className="sidebar__logo">
-                <img src={logo} alt="company logo" />
-            </div>
+            <Link to={'/'}>
+                <div className="sidebar__logo">
+                    <img src={logo} alt="company logo"/>
+                </div>
+            </Link>
             {
-                sidebar_items.map((item, index) => (
+                route_list.map((item, index) => (
                     <Link to={item.route} key={index}>
                         <SidebarItem
                             title={item.display_name}
