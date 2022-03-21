@@ -72,7 +72,7 @@ const CvUpdate = (props) => {
                                                 required={true}
                                             />
                                             <p>
-                                                Current Resume: <a href={resume} className="text-primary" target={'_blank'}>{resume ? resume.split('/').pop(): 'No Resume Uploaded'}</a>
+                                                Current Resume: <a href={resume} className="text-primary" target={'_blank'} rel={'noopener noreferrer'}>{resume ? resume.split('/').pop(): 'No Resume Uploaded'}</a>
                                             </p>
                                         </div>
                                     </div>

@@ -11,7 +11,7 @@ const CvDetail = (props) => {
             .then((response) => {
                 setResume(response.data)
             });
-    }, [props.match.params.id]);
+    }, [props.match.params.id, update_url]);
     console.log(resume)
     return (
 

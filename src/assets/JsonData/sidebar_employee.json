@@ -18,5 +18,25 @@
     "display_name": "Experience",
     "route": "/employee/experience",
     "icon": "bx bx-diamond"
+  },
+  {
+    "display_name": "Skills",
+    "route": "/employee/skill",
+    "icon": "bx bxs-cube-alt"
+  },
+  {
+    "display_name": "Special Activities",
+    "route": "/employee/sa",
+    "icon": "bx bx-cog"
+  },
+  {
+    "display_name": "Training",
+    "route": "/employee/training",
+    "icon": "bx bx-coin-stack"
+  },
+  {
+    "display_name": "Award",
+    "route": "/employee/award",
+    "icon": "bx bx-trophy"
   }
 ]

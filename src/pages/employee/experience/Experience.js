@@ -13,24 +13,24 @@ import moment from "moment";
 
 const tableHead = [
     'id',
-    'education_level',
-    'institute name',
-    'result',
-    'from date',
-    'completion date',
-    'still reading',
+    'designation',
+    'company',
+    'description',
+    'join date',
+    'resign date',
+    'still working',
     'action'
 ]
 const renderHead = (item, index) => <th key={index}>{item}</th>
 
 
 
-const Education = () => {
-    const [educations, setState] = useState([])
+const Experience = () => {
+    const [experiences, setState] = useState([])
     useEffect(() => {
-        axios.get(`/education/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
+        axios.get(`/experience/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
     }, [])
-    const delete_education = (id) => {
+    const delete_experience = (id) => {
         Swal.fire({
             title: 'Are you sure you want to delete this?',
             showCancelButton: true,
@@ -39,41 +39,41 @@ const Education = () => {
             confirmButtonColor: 'red'
         }).then((result) => {
             if (result.isConfirmed) {
-                return Delete(`${process.env.REACT_APP_API_ROOT_V1}education/${id}/`, id, educations, setState)
+                return Delete(`${process.env.REACT_APP_API_ROOT_V1}experience/${id}/`, id, experiences, setState)
             }
         })
     }
     const renderBody = (item, index) => (
         <tr key={index}>
             <td>{item.id}</td>
-            <td>{item.education_level}</td>
-            <td>{item.institute_name}</td>
-            <td>{item.result}</td>
-            <td>{moment(item.from_date).format('MMMM d, YYYY')}</td>
-            <td>{moment(item.completion_date).format('MMMM d, YYYY')}</td>
+            <td>{item.designation}</td>
+            <td>{item.company}</td>
+            <td>{item.description}</td>
+            <td>{moment(item.joined_date).format('MMMM d, YYYY')}</td>
+            <td>{moment(item.resign_date).format('MMMM d, YYYY')}</td>
             <td>
-                <Badge type={'primary'} content={item.still_reading ? 'YES' : 'NO'} />
+                <Badge type={'primary'} content={item.still_working ? 'YES' : 'NO'} />
             </td>
             <td className={'d-flex'}>
-                <Link to={`/employee/education/${item.id}/update`}>
+                <Link to={`/employee/experience/${item.id}/update`}>
                     <IconButton type={'warning'} icon_class={'bx-edit'}/>
                 </Link>
-                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_education(item.id)}/>
+                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_experience(item.id)}/>
             </td>
         </tr>
     )
-    if (!educations) return <p>Loading ...</p>
+    if (!experiences) return <p>Loading ...</p>
     else return (
         <div>
             <div className="row">
                 <div className="col-10">
                     <h2 className="page-header">
-                        Education List
+                        Experience List
                     </h2>
                 </div>
                 <div className="col-2">
-                    <Link to={'/employee/education/create'}>
-                        <Button color={'primary'} content={'Add New Education'}/>
+                    <Link to={'/employee/experience/create'}>
+                        <Button color={'primary'} content={'Add New Experience'}/>
                     </Link>
                 </div>
             </div>
@@ -85,7 +85,7 @@ const Education = () => {
                                 limit='10'
                                 headData={tableHead}
                                 renderHead={(item, index) => renderHead(item, index)}
-                                bodyData={educations}
+                                bodyData={experiences}
                                 renderBody={(item, index) => renderBody(item, index)}
                             />
                         </div>
@@ -96,4 +96,4 @@ const Education = () => {
     )
 }
 
-export default Education
+export default Experience
