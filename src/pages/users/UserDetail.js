@@ -245,50 +245,21 @@ const UserDetail = (props) => {
                                                     Professional Skills
                                                 </h5>
                                                 <div className="sm-no-margin">
-                                                    <div className="progress-text">
-                                                        <div className="row">
-                                                            <div className="col-7">Positive Behaviors</div>
-                                                            <div className="col-5 text-right">40%</div>
+                                                    {user.employee.skills.map(skill => {
+                                                        return <div>
+                                                            <div className="progress-text">
+                                                                <div className="row">
+                                                                    <div className="col-7">{skill.name}</div>
+                                                                    <div className="col-5 text-right">{skill.skill_level}%</div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="custom-progress progress">
+                                                                <div role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                                                                     aria-valuemax="100" style={{width: `${skill.skill_level}%`}}
+                                                                     className="animated custom-bar progress-bar slideInLeft bg-sky"/>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="custom-progress progress">
-                                                        <div role="progressbar" aria-valuenow="70" aria-valuemin="0"
-                                                             aria-valuemax="100" style={{width: "40%"}}
-                                                             className="animated custom-bar progress-bar slideInLeft bg-sky"/>
-                                                    </div>
-                                                    <div className="progress-text">
-                                                        <div className="row">
-                                                            <div className="col-7">Teamworking Abilities</div>
-                                                            <div className="col-5 text-right">50%</div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="custom-progress progress">
-                                                        <div role="progressbar" aria-valuenow="70" aria-valuemin="0"
-                                                             aria-valuemax="100" style={{width: "50%"}}
-                                                             className="animated custom-bar progress-bar slideInLeft bg-orange"/>
-                                                    </div>
-                                                    <div className="progress-text">
-                                                        <div className="row">
-                                                            <div className="col-7">Time Management</div>
-                                                            <div className="col-5 text-right">60%</div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="custom-progress progress">
-                                                        <div role="progressbar" aria-valuenow="70" aria-valuemin="0"
-                                                             aria-valuemax="100" style={{width: "60%"}}
-                                                             className="animated custom-bar progress-bar slideInLeft bg-green"/>
-                                                    </div>
-                                                    <div className="progress-text">
-                                                        <div className="row">
-                                                            <div className="col-7">Excellent Communication</div>
-                                                            <div className="col-5 text-right">80%</div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="custom-progress progress">
-                                                        <div role="progressbar" aria-valuenow="70" aria-valuemin="0"
-                                                             aria-valuemax="100" style={{width: "80%"}}
-                                                             className="animated custom-bar progress-bar slideInLeft bg-yellow"/>
-                                                    </div>
+                                                    })}
                                                 </div>
 
                                             </div>

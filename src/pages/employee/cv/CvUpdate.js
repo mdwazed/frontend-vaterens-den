@@ -34,7 +34,8 @@ const CvUpdate = (props) => {
         formData.append('career_objective', data.career_objective)
         formData.append('designation', data.designation)
         // formData.append('social_links', data.social_links)
-        if (data.cv) formData.append('cv', data.cv[0])
+        if (data.cv?.length > 0) formData.append('cv', data.cv[0])
+        console.log(formData)
         await update( formData, update_url, history, '/employee/cv/')
     };
 
@@ -69,7 +70,6 @@ const CvUpdate = (props) => {
                                                 register={register}
                                                 errors={errors}
                                                 type={'file'}
-                                                required={true}
                                             />
                                             <p>
                                                 Current Resume: <a href={resume} className="text-primary" target={'_blank'} rel={'noopener noreferrer'}>{resume ? resume.split('/').pop(): 'No Resume Uploaded'}</a>
