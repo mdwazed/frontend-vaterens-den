@@ -18,23 +18,11 @@ const CvDetail = (props) => {
         <div>
             <div className="row">
                 <div className="col-10">
-                    <h2 className="page-header">Resume <span className="text-primary">{resume.designation}</span></h2>
+                    <h2 className="page-header">Resume <span className="text-primary">{resume.resume_name}</span></h2>
                 </div>
             </div>
             <div className="card">
-                <div className="row ">
-                    <div className="col-md-4">
-                        <img src={`${process.env.REACT_APP_API_DOMAIN}${resume?.user?.photo}`} className="w-100"
-                             alt={resume.designation}/>
-                    </div>
-                    <div className="col-md-8 px-3">
-                        <div className="card-block px-3">
-                            <h4 className="card-title">{resume.designation}</h4>
-                            <p className="card-text">{resume.career_objective}</p>
-                        </div>
-                    </div>
-                </div>
-                <object width="100%" height="400" data={`${process.env.REACT_APP_API_DOMAIN}${resume.cv}`}
+                <object width="100%" height="400" data={`${process.env.REACT_APP_API_DOMAIN}${resume.resume}`}
                         type="application/pdf" />
             </div>
         </div>

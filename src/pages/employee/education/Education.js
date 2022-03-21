@@ -9,15 +9,13 @@ import Swal from "sweetalert2";
 import {Delete} from "../../../utils/crud";
 import {employee_id} from "../../../utils/storage";
 import Badge from "../../../components/badge/Badge";
-import moment from "moment";
 
 const tableHead = [
     'id',
     'education_level',
     'institute name',
     'result',
-    'from date',
-    'completion date',
+    'year of completion',
     'still reading',
     'action'
 ]
@@ -49,8 +47,7 @@ const Education = () => {
             <td>{item.education_level}</td>
             <td>{item.institute_name}</td>
             <td>{item.result}</td>
-            <td>{moment(item.from_date).format('MMMM d, YYYY')}</td>
-            <td>{moment(item.completion_date).format('MMMM d, YYYY')}</td>
+            <td>{item.year_of_completion}</td>
             <td>
                 <Badge type={'primary'} content={item.still_reading ? 'YES' : 'NO'} />
             </td>

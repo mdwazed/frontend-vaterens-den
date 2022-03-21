@@ -74,12 +74,10 @@ const EducationUpdate = (props) => {
 
                                         <div className="col-6">
                                             <FormInput
-                                                label={'Result in GPA/CGPA'}
+                                                label={'Result'}
                                                 name={'result'}
                                                 register={register}
                                                 errors={errors}
-                                                type={'number'}
-                                                step="0.01"
                                             />
                                         </div>
                                         <div className="col-6">
@@ -94,18 +92,9 @@ const EducationUpdate = (props) => {
                                     <div className="row">
                                         <div className="col-6">
                                             <FormInput
-                                                name={'from_date'}
+                                                name={'year_of_completion'}
                                                 register={register}
                                                 errors={errors}
-                                                type={'date'}
-                                            />
-                                        </div>
-                                        <div className="col-6">
-                                            <FormInput
-                                                name={'completion_date'}
-                                                register={register}
-                                                errors={errors}
-                                                type={'date'}
                                             />
                                         </div>
                                     </div>

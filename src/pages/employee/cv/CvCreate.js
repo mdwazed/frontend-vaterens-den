@@ -4,7 +4,6 @@ import {useHistory} from "react-router-dom";
 import {create} from "../../../utils/crud";
 import FormInput from "../../../components/form/form_input/FormInput";
 import Button from "../../../components/button/Button";
-import TextArea from "../../../components/form/form_input/TextArea";
 import {employee_id} from "../../../utils/storage";
 
 const CvCreate = () => {
@@ -19,10 +18,9 @@ const CvCreate = () => {
 
 
     const onSubmit = async (data) => {
-        formData.append('career_objective', data.career_objective)
-        formData.append('designation', data.designation)
+        formData.append('resume_name', data.resume_name)
         // formData.append('social_links', data.social_links)
-        if (data.cv) formData.append('cv', data.cv[0])
+        if (data.cv) formData.append('resume', data.resume[0])
         create(
             formData, `${process.env.REACT_APP_API_ROOT_V1}cv/?employee_id=${employee_id()}`, history, '/employee/cv/'
         )
@@ -44,8 +42,7 @@ const CvCreate = () => {
                                     <div className="row">
                                         <div className="col-6">
                                             <FormInput
-                                                label={'Designations'}
-                                                name={'designation'}
+                                                name={'resume_name'}
                                                 register={register}
                                                 errors={errors}
                                                 required={true}
@@ -54,24 +51,11 @@ const CvCreate = () => {
 
                                         <div className="col-6">
                                             <FormInput
-                                                label={'Resume'}
-                                                name={'cv'}
+                                                name={'resume'}
                                                 register={register}
                                                 errors={errors}
                                                 type={'file'}
                                                 required={true}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="row">
-
-                                        <div className="col-12">
-                                            <TextArea
-                                                label={'Career Objective'}
-                                                name={'career_objective'}
-                                                register={register}
-                                                errors={errors}
                                             />
                                         </div>
                                     </div>

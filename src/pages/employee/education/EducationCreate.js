@@ -13,20 +13,16 @@ const EducationCreate = () => {
         formState: {errors},
     } = useForm();
     const history = useHistory()
-    const [result, setResult] = useState('');
     const [stillReading, setStillReading] = useState('');
-    const [fromDate, setFromDate] = useState('');
-    const [completionDate, setCompletionDate] = useState('');
 
 
     const onSubmit = (data) => {
         const form_data = {
             'education_level': data.education_level,
             'institute_name': data.institute_name,
-            'result': result === '' ? 0 : result,
+            'result': data.result,
             'still_reading': stillReading === '' ? false : stillReading,
-            'completion_date': completionDate,
-            'from_date': fromDate
+            'year_of_completion':data.year_of_completion
         }
         console.log(form_data)
         create(
@@ -75,14 +71,10 @@ const EducationCreate = () => {
 
                                         <div className="col-6">
                                             <FormInput
-                                                label={'Result in GPA/CGPA'}
+                                                label={'Result'}
                                                 name={'result'}
                                                 register={register}
                                                 errors={errors}
-                                                type={'number'}
-                                                step="0.01"
-                                                max={5.00}
-                                                onChange={e => setResult(e.target.value)}
                                             />
                                         </div>
                                         <div className="col-6">
@@ -98,20 +90,10 @@ const EducationCreate = () => {
                                     <div className="row">
                                         <div className="col-6">
                                             <FormInput
-                                                name={'from_date'}
+                                                name={'year_of_completion'}
                                                 register={register}
                                                 errors={errors}
-                                                type={'date'}
-                                                onChange={e => setFromDate(e.target.value)}
-                                            />
-                                        </div>
-                                        <div className="col-6">
-                                            <FormInput
-                                                name={'completion_date'}
-                                                register={register}
-                                                errors={errors}
-                                                type={'date'}
-                                                onChange={e => setCompletionDate(e.target.value)}
+                                                type={'number'}
                                             />
                                         </div>
                                     </div>

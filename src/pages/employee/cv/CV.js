@@ -10,11 +10,9 @@ import {Delete} from "../../../utils/crud";
 import {employee_id} from "../../../utils/storage";
 
 const cvTableHead = [
-    'id',
+    'SL',
+    'resume name',
     'resume',
-    'career objective',
-    'designation',
-    'social links',
     'action'
 ]
 const renderHead = (item, index) => <th key={index}>{item}</th>
@@ -41,11 +39,9 @@ const CV = () => {
     }
     const renderBody = (item, index) => (
         <tr key={index}>
-            <td>{item.id}</td>
-            <td>{item.cv ? item.cv.split('/').pop()  : 'No Resume Uploaded'}</td>
-            <td>{item.career_objective.length > 50 ? item.career_objective.substring(0, 50) + "..." : item.career_objective}</td>
-            <td>{item.designation}</td>
-            <td>{item.social_links}</td>
+            <td>{index}</td>
+            <td>{item.resume_name}</td>
+            <td>{item.resume ? item.resume.split('/').pop()  : 'No Resume Uploaded'}</td>
             <td className={'d-flex'}>
                 <Link to={`/employee/cv/${item.id}/update`}>
                     <IconButton type={'warning'} icon_class={'bx-edit'}/>
