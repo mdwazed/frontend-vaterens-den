@@ -1,7 +1,10 @@
 import React from 'react';
 
 const TextArea = (props) => {
-    const {label, name, className = 'form-control', required = false, errors, register = () => {}} = props
+    const {
+        name, label = name, className = 'form-control', required = false, errors, register = () => {
+        }
+    } = props
     return (
         <div className={'FormInput'}>
             <label htmlFor={name}>{label}</label>

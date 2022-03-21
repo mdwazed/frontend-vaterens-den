@@ -8,25 +8,29 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import {Delete} from "../../../utils/crud";
 import {employee_id} from "../../../utils/storage";
+import Badge from "../../../components/badge/Badge";
+import moment from "moment";
 
-const cvTableHead = [
+const tableHead = [
     'id',
-    'resume',
-    'career objective',
-    'designation',
-    'social links',
+    'education_level',
+    'institute name',
+    'result',
+    'from date',
+    'completion date',
+    'still reading',
     'action'
 ]
 const renderHead = (item, index) => <th key={index}>{item}</th>
 
 
 
-const CV = () => {
-    const [cvList, setState] = useState([])
+const Education = () => {
+    const [educations, setState] = useState([])
     useEffect(() => {
-        axios.get(`/cv/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
+        axios.get(`/education/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
     }, [])
-    const delete_cv = (id) => {
+    const delete_education = (id) => {
         Swal.fire({
             title: 'Are you sure you want to delete this?',
             showCancelButton: true,
@@ -35,29 +39,30 @@ const CV = () => {
             confirmButtonColor: 'red'
         }).then((result) => {
             if (result.isConfirmed) {
-                return Delete(`${process.env.REACT_APP_API_ROOT_V1}cv/${id}/`, id, cvList, setState)
+                return Delete(`${process.env.REACT_APP_API_ROOT_V1}education/${id}/`, id, educations, setState)
             }
         })
     }
     const renderBody = (item, index) => (
         <tr key={index}>
             <td>{item.id}</td>
-            <td>{item.cv ? item.cv.split('/').pop()  : 'No Resume Uploaded'}</td>
-            <td>{item.career_objective.length > 50 ? item.career_objective.substring(0, 50) + "..." : item.career_objective}</td>
-            <td>{item.designation}</td>
-            <td>{item.social_links}</td>
+            <td>{item.education_level}</td>
+            <td>{item.institute_name}</td>
+            <td>{item.result}</td>
+            <td>{moment(item.from_date).format('MMMM d, YYYY')}</td>
+            <td>{moment(item.completion_date).format('MMMM d, YYYY')}</td>
+            <td>
+                <Badge type={'primary'} content={item.still_reading ? 'YES' : 'NO'} />
+            </td>
             <td className={'d-flex'}>
-                <Link to={`/employee/cv/${item.id}/update`}>
+                <Link to={`/employee/education/${item.id}/update`}>
                     <IconButton type={'warning'} icon_class={'bx-edit'}/>
                 </Link>
-                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_cv(item.id)}/>
-                <Link to={`/employee/cv/${item.id}/detail`}>
-                    <IconButton type={'success'} icon_class={'bx-detail'}/>
-                </Link>
+                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_education(item.id)}/>
             </td>
         </tr>
     )
-    if (!cvList) return <p>Loading ...</p>
+    if (!educations) return <p>Loading ...</p>
     else return (
         <div>
             <div className="row">
@@ -67,8 +72,8 @@ const CV = () => {
                     </h2>
                 </div>
                 <div className="col-2">
-                    <Link to={'/employee/cv/create'}>
-                        <Button color={'primary'} content={'Add New CV'}/>
+                    <Link to={'/employee/education/create'}>
+                        <Button color={'primary'} content={'Add New Education'}/>
                     </Link>
                 </div>
             </div>
@@ -78,9 +83,9 @@ const CV = () => {
                         <div className="card__body">
                             <Table
                                 limit='10'
-                                headData={cvTableHead}
+                                headData={tableHead}
                                 renderHead={(item, index) => renderHead(item, index)}
-                                bodyData={cvList}
+                                bodyData={educations}
                                 renderBody={(item, index) => renderBody(item, index)}
                             />
                         </div>
@@ -91,4 +96,4 @@ const CV = () => {
     )
 }
 
-export default CV
+export default Education

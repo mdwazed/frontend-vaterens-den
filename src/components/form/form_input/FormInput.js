@@ -2,30 +2,32 @@ import React from 'react';
 
 function FormInput(props) {
     const {
-        label,
         type = 'text',
         name,
+        label = name,
         register,
-        required=false,
-        className='form-control',
+        required = false,
+        className = 'form-control',
         errors,
         onChange,
-        onClick
+        onClick,
+        ...other_config
     } = props;
 
 
     return (
         <div className="FormInput">
-            <label htmlFor={name}>{label}</label>
+            <label htmlFor={name}>{label.toUpperCase()}</label>
             <input
                 type={type}
                 className={className}
                 id={name}
-                {...register( name, {required: "This field is required" ? required : required,})}
+                {...register(name, {required: required,})}
                 onClick={onClick}
                 onChange={onChange}
+                {...other_config}
             />
-            <p className={'text-danger'}> {errors[name] && errors[name].message ? errors[name].message : null}</p>
+            <p className={'text-danger'}> {errors[name] && <span>This field is required</span>}</p>
         </div>
     )
 }
