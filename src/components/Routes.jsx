@@ -16,6 +16,9 @@ import EducationUpdate from "../pages/employee/education/EducationUpdate";
 import Experience from "../pages/employee/experience/Experience";
 import ExperienceCreate from "../pages/employee/experience/ExperienceCreate";
 import ExperienceUpdate from "../pages/employee/experience/ExperienceUpdate";
+import Skill from "../pages/employee/skill/Skill";
+import SkillCreate from "../pages/employee/skill/SkillCreate";
+import SkillUpdate from "../pages/employee/skill/SkillUpdate";
 
 
 const Routes = () => {
@@ -36,9 +39,14 @@ const Routes = () => {
             <Route path='/employee/education' exact component={Education}/>
             <Route path='/employee/education/create' exact component={EducationCreate}/>
             <Route path='/employee/education/:id/update' exact component={EducationUpdate}/>
+            {/*  Experience  */}
             <Route path='/employee/experience' exact component={Experience}/>
             <Route path='/employee/experience/create' exact component={ExperienceCreate}/>
             <Route path='/employee/experience/:id/update' exact component={ExperienceUpdate}/>
+            {/*  Skill  */}
+            <Route path='/employee/skill' exact component={Skill}/>
+            <Route path='/employee/skill/create' exact component={SkillCreate}/>
+            <Route path='/employee/skill/:id/update' exact component={SkillUpdate}/>
         </Switch>
     )
 }

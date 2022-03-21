@@ -105,18 +105,6 @@ const UserDetail = (props) => {
                                                 </div>
                                             </div>
                                             <div className="bg-light-gray mt-4 p-3">
-                                                    <h5>Jobs Applied</h5>
-                                                <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
-                                                    MC Solution Looking for Python Dev <span className="badge badge-success float-right">Short Listed</span>
-                                                </a>
-                                                <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
-                                                    Sapience Trio Looking For Frontend Dev <span className="badge badge-primary float-right">reviewed</span>
-                                                </a>
-                                                <a href={window.location.href} className="list-group-item list-group-item-action  border-0">
-                                                    F&R Looking for Senior Developer <span className="badge badge-danger float-right">rejected</span>
-                                                </a>
-                                            </div>
-                                            <div className="bg-light-gray mt-4 p-3">
                                                 <h5>All CV </h5>
                                                 <div className="list-group w-100">
                                                     {user.employee.cv.map((c) => {
