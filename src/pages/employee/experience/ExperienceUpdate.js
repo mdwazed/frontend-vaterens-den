@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
-import {update} from "../../../utils/crud";
+import {update} from "../../../utils/actions";
 import FormInput from "../../../components/form/form_input/FormInput";
 import Button from "../../../components/button/Button";
 import {employee_id} from "../../../utils/storage";

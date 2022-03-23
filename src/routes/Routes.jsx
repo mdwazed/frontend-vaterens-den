@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Route, Switch } from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 
 import Users from '../pages/users/Users'
 import CreateUser from "../pages/users/CreateUser";
@@ -22,6 +22,8 @@ import SkillUpdate from "../pages/employee/skill/SkillUpdate";
 import Training from "../pages/employee/training/Training";
 import TrainingCreate from "../pages/employee/training/TrainingCreate";
 import TrainingUpdate from "../pages/employee/training/TrainingUpdate";
+import Award from "../pages/employee/award/Award";
+import ArmService from "../pages/employee/arm-service/ArmService";
 
 
 const Routes = () => {
@@ -54,6 +56,9 @@ const Routes = () => {
             <Route path='/employee/training' exact component={Training}/>
             <Route path='/employee/training/create' exact component={TrainingCreate}/>
             <Route path='/employee/training/:id/update' exact component={TrainingUpdate}/>
+            {/* Award */}
+            <Route path={'/employee/award'} exact component={Award}/>
+            <Route path={'/employee/arm-service'} exact component={ArmService}/>
         </Switch>
     )
 }

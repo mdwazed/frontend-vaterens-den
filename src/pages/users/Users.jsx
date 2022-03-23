@@ -8,7 +8,7 @@ import IconButton from "../../components/button/IconButton";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {Delete} from "../../utils/crud";
+import {Delete} from "../../utils/actions";
 
 const userTableHead = [
     'id',

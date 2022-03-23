@@ -24,5 +24,15 @@
     "display_name": "Training",
     "route": "/employee/training",
     "icon": "bx bx-coin-stack"
+  },
+  {
+    "display_name": "Award",
+    "route": "/employee/award",
+    "icon": "bx bx-award"
+  },
+  {
+    "display_name": "Arm-Services",
+    "route": "/employee/arm-service",
+    "icon": "bx bx-book-content"
   }
 ]

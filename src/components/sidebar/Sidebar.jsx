@@ -6,8 +6,8 @@ import './sidebar.css'
 
 import logo from '../../assets/images/logo.png'
 
-import sidebar_items from '../../assets/JsonData/sidebar_routes.json'
-import sidebar_employee_menu from '../../assets/JsonData/sidebar_employee.json'
+import sidebar_items from '../../routes/sidebar_routes.json'
+import sidebar_employee_menu from '../../routes/sidebar_employee.json'
 
 const get_route_list = (pathname) => {
     if (pathname.includes('employee') || pathname.includes('profile')) return  sidebar_employee_menu

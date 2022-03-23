@@ -27,7 +27,7 @@ const Dropdown = props => {
         <div className='dropdown'>
             <button ref={dropdown_toggle_el} className="dropdown__toggle">
                 {
-                    props.icon ? <i className={props.icon}></i> : ''
+                    props.icon ? <i className={props.icon}/> : ''
                 }
                 {
                     props.badge ? <span className='dropdown__toggle-badge'>{props.badge}</span> : ''

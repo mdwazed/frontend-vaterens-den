@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import Button from "../../components/button/Button";
 import FormInput from "../../components/form/form_input/FormInput";
 import SelectInput from "../../components/form/form_input/SelectInput";
-import {create} from "../../utils/crud";
+import {create} from "../../utils/actions";
 import {useHistory} from "react-router-dom";
 
 const CreateUser = () => {

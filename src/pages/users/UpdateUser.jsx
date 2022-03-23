@@ -6,7 +6,7 @@ import {useHistory} from "react-router-dom";
 import axios from "axios";
 import FormInput from "../../components/form/form_input/FormInput";
 import SelectInput from "../../components/form/form_input/SelectInput";
-import {update} from "../../utils/crud";
+import {update} from "../../utils/actions";
 
 const UpdateUser = (props) => {
     const {

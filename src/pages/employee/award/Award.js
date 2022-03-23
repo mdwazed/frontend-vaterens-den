@@ -13,23 +13,22 @@ import moment from "moment";
 const tableHead = [
     'id',
     'name',
-    'organization',
+    'description',
     'certificate',
-    'from_date',
-    'completion_date',
+    'issue_date',
     'action'
 ]
 const renderHead = (item, index) => <th key={index}>{item}</th>
 
 
 
-const Training = () => {
-    const [trainings, setState] = useState([])
+const Award = () => {
+    const [awards, setState] = useState([])
     useEffect(() => {
-        axios.get(`/training/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
+        axios.get(`/award/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
     }, [])
-    console.log(trainings)
-    const delete_training = (id) => {
+    console.log(awards)
+    const delete_award = (id) => {
         Swal.fire({
             title: 'Are you sure you want to delete this?',
             showCancelButton: true,
@@ -38,7 +37,7 @@ const Training = () => {
             confirmButtonColor: 'red'
         }).then((result) => {
             if (result.isConfirmed) {
-                return Delete(`${process.env.REACT_APP_API_ROOT_V1}training/${id}/`, id, trainings, setState)
+                return Delete(`${process.env.REACT_APP_API_ROOT_V1}award/${id}/`, id, awards, setState)
             }
         })
     }
@@ -46,31 +45,29 @@ const Training = () => {
         <tr key={index}>
             <td>{item.id}</td>
             <td>{item.name}</td>
-            <td>{item.organization}</td>
-            <td>{item.certificate}</td>
-            <td>{moment(item.from_date).format('MMMM d, YYYY')}</td>
-            <td>{moment(item.completion_date).format('MMMM d, YYYY')}</td>
-
+            <td>{item.description}</td>
+            <td>{item.certificate ? item.certificate.split('/').pop()  : 'No Certificate Uploaded'}</td>
+            <td>{moment(item.issue_date).format('MMMM d, YYYY')}</td>
             <td className={'d-flex'}>
-                <Link to={`/employee/training/${item.id}/update`}>
+                <Link to={`/employee/award/${item.id}/update`}>
                     <IconButton type={'warning'} icon_class={'bx-edit'}/>
                 </Link>
-                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_training(item.id)}/>
+                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_award(item.id)}/>
             </td>
         </tr>
     )
-    if (!trainings) return <p>Loading ...</p>
+    if (!awards) return <p>Loading ...</p>
     else return (
         <div>
             <div className="row">
                 <div className="col-10">
                     <h2 className="page-header">
-                        Training List
+                        Award List
                     </h2>
                 </div>
                 <div className="col-2">
-                    <Link to={'/employee/training/create'}>
-                        <Button color={'primary'} content={'Add New Training'}/>
+                    <Link to={'/employee/award/create'}>
+                        <Button color={'primary'} content={'Add New Award'}/>
                     </Link>
                 </div>
             </div>
@@ -82,7 +79,7 @@ const Training = () => {
                                 limit='10'
                                 headData={tableHead}
                                 renderHead={(item, index) => renderHead(item, index)}
-                                bodyData={trainings}
+                                bodyData={awards}
                                 renderBody={(item, index) => renderBody(item, index)}
                             />
                         </div>
@@ -93,4 +90,4 @@ const Training = () => {
     )
 }
 
-export default Training
+export default Award

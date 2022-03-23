@@ -4,7 +4,7 @@ import './layout.css'
 
 import Sidebar from '../sidebar/Sidebar'
 import TopNav from '../topnav/TopNav'
-import Routes from '../Routes'
+import Routes from '../../routes/Routes'
 
 import { BrowserRouter, Route } from 'react-router-dom'
 
