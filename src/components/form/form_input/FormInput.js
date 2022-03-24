@@ -17,7 +17,7 @@ function FormInput(props) {
 
     return (
         <div className="FormInput">
-            <label htmlFor={name}>{label.toUpperCase()}</label>
+            <label htmlFor={name}>{label.toUpperCase().replace('_', ' ')}</label>
             <input
                 type={type}
                 className={className}

@@ -9,6 +9,7 @@ function CV() {
         handleSubmit,
         register,
         formState: {errors},
+        reset,
     } = useForm();
     const list_url = `${process.env.REACT_APP_API_ROOT_V1}cv/`
     const detail_url = (id) => {
@@ -32,6 +33,12 @@ function CV() {
                 type={'file'}
                 required={true}
             />
+            {/*<p>*/}
+            {/*    Current Resume:*/}
+            {/*    <a href={resume} className="text-primary" target={'_blank'} rel={'noopener noreferrer'}>*/}
+            {/*        {resume ? resume.split('/').pop() : 'No Resume Uploaded'}*/}
+            {/*    </a>*/}
+            {/*</p>*/}
         </div>
     </div>
     return (
@@ -45,6 +52,8 @@ function CV() {
                 create_url={`${list_url}?employee_id=${employee_id()}`}
                 update_url={detail_url}
                 delete_url={detail_url}
+                reset={reset}
+                fileFields={['resume']}
             />
         </div>
     );

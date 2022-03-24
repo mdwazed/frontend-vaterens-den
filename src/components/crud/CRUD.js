@@ -7,23 +7,27 @@ import IconButton from "../button/IconButton";
 import {Button} from "react-bootstrap";
 import Table from "../table/Table";
 
-const renderHead = (item, index) => <th key={index}>{item}</th>
+const renderHead = (item, index) => <th key={index}>{item.replace('_', ' ')}</th>
 const CRUD = (props) => {
 
     const {
         headData,
         page_title,
         list_url,
-        update_url =()=> {},
-        delete_url =()=> {},
-        handleSubmit =()=> {},
-        detailUrl =()=> {},
+        update_url = () => {
+        },
+        delete_url = () => {
+        },
+        handleSubmit = () => {
+        },
+        detailUrl = () => {
+        },
         create_url,
-        hasDetail=false,
+        hasDetail = false,
         formField,
     } = props
 
-    const tableHead = ['SL', headData, 'action']
+    const tableHead = ['SL', ...headData, 'action']
 
     const [dataList, setState] = useState([])
     const [show, setShow] = useState(false);
@@ -33,33 +37,39 @@ const CRUD = (props) => {
     const handleCreate = () => {
         setTitle(`Add New ${page_title}`)
         setShow(true)
+        props.reset({})
     }
-    const handleUpdate = () => {
+    // const [fileFields, setFileFields] = useState(props.fileFields)
+    const handleUpdate = id => {
         setTitle(`Update ${page_title}`)
         setShow(true)
+        axios.get(props.update_url(id)).then((response) => {
+            props.reset(response.data)
+            console.log(response.data)
+            // if (fileFields.length > 0){
+            //     let values = []
+            //     fileFields.map(file => {values.push(response.data[file])})
+            //     setFileFields(values)
+            // }
+        })
     }
     useEffect(() => {
         axios.get(list_url).then((response) => {
             setState(response.data)
         })
     }, [list_url])
-    console.log(dataList)
-
-    const onSubmit = async (data) => {
-        if (title === `Add New ${page_title}`) create(data, create_url)
-        else update(data, update_url)
-    };
 
     const delete_cv = (id) => {
         return Delete(delete_url(id), id, dataList, setState)
     }
-    console.log(headData)
     const renderBody = (item, index) => (
         <tr key={index}>
             <td>{index}</td>
-            {headData?.map(ele => `<td>${item[ele]}</td>`)}
+            {headData?.map((ele, i) => <td key={i}>{item[ele]}</td>)}
             <td className={'d-flex'}>
-                <IconButton type={'warning'} onClick={handleUpdate} icon_class={'bx-edit'}/>
+                <IconButton type={'warning'} onClick={() => {
+                    handleUpdate(item.id)
+                }} icon_class={'bx-edit'}/>
                 <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_cv(item.id)}/>
                 {hasDetail ? <Link to={detailUrl(item.id)}>
                     <IconButton type={'success'} icon_class={'bx-detail'}/>
@@ -67,6 +77,10 @@ const CRUD = (props) => {
             </td>
         </tr>
     )
+
+    const onSubmit = async (data) => {
+        await create(data, create_url)
+    };
     if (!dataList) return <p>Loading ...</p>
     else return (
         <div>
@@ -77,7 +91,9 @@ const CRUD = (props) => {
                     </h2>
                 </div>
                 <div className="col-2">
-                    <Button variant={'primary'} onClick={handleCreate} value={`Add New ${page_title}`}/>
+                    <Button variant={'primary'} onClick={handleCreate}>
+                        {`Add New ${page_title}`}
+                    </Button>
                 </div>
             </div>
             <div className="row">
