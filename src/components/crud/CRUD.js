@@ -73,7 +73,18 @@ const CRUD = (props) => {
     const renderBody = (item, index) => (
         <tr key={index}>
             <td>{index}</td>
-            {headData?.map((ele, i) => <td key={i}>{item[ele]}</td>)}
+            {headData?.map((ele, i) => {
+                if(fileFields.includes(ele)) {
+                    return (
+                        <td key={i}>
+                            <a className={'badge badge-secondary'} target={'_blank'} href={item[ele]}>
+                                {item[ele].split('/').pop()}
+                            </a>
+                        </td>
+                    )
+                }
+                else return <td key={i}>{item[ele]}</td>
+            })}
             <td className={'d-flex'}>
                 <IconButton type={'warning'} onClick={() => {
                     handleUpdate(item.id)
