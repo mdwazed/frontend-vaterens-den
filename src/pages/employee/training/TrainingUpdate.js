@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useForm} from "react-hook-form";
 import {useHistory} from "react-router-dom";
 import {update} from "../../../utils/actions";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 import FormInput from "../../../components/form/form_input/FormInput";
 import Button from "../../../components/button/Button";
 import axios from "axios";
@@ -16,7 +16,7 @@ const TrainingUpdate = (props) => {
     } = useForm();
 
     const history = useHistory()
-    const update_url = `${process.env.REACT_APP_API_ROOT_V1}training/${props.match.params.id}/?employee_id=${employee_id()}`
+    const update_url = `${process.env.REACT_APP_API_ROOT_V1}training/${props.match.params.id}/?user_id=${user_id()}`
     const [certificate, setCertificate] = useState('')
     useEffect(() => {
         axios

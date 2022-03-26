@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 import {update} from "../../../utils/actions";
 import FormInput from "../../../components/form/form_input/FormInput";
 import Button from "../../../components/button/Button";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 import TextArea from "../../../components/form/form_input/TextArea";
 import axios from "axios";
 
@@ -15,7 +15,7 @@ const ExperienceUpdate = (props) => {
         formState: {errors},
         reset
     } = useForm();
-    const update_url = `${process.env.REACT_APP_API_ROOT_V1}experience/${props.match.params.id}/?employee_id=${employee_id()}`
+    const update_url = `${process.env.REACT_APP_API_ROOT_V1}experience/${props.match.params.id}/?user_id=${user_id()}`
 
     useEffect(() => {
         axios

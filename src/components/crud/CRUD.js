@@ -14,17 +14,19 @@ const CRUD = (props) => {
         headData,
         page_title,
         list_url,
-        update_url = () => {
+        update_url = (id) => {
         },
-        delete_url = () => {
+        delete_url = (id) => {
         },
-        handleSubmit = () => {
+        handleSubmit = (onSubmit) => {
         },
         detailUrl = () => {
         },
         create_url,
         hasDetail = false,
         formField,
+        fileFields, setFileFields,
+        reset,
     } = props
 
     const tableHead = ['SL', ...headData, 'action']
@@ -32,30 +34,36 @@ const CRUD = (props) => {
     const [dataList, setState] = useState([])
     const [show, setShow] = useState(false);
     const [title, setTitle] = useState(page_title);
+    const [createForm, setCreate] = useState(true);
+    const [updateUrl, setUpdateUrl] = useState('');
 
     const onHide = () => setShow(false);
     const handleCreate = () => {
         setTitle(`Add New ${page_title}`)
         setShow(true)
-        props.reset({})
+        reset({})
+        setCreate(true)
     }
-    // const [fileFields, setFileFields] = useState(props.fileFields)
     const handleUpdate = id => {
         setTitle(`Update ${page_title}`)
         setShow(true)
-        axios.get(props.update_url(id)).then((response) => {
-            props.reset(response.data)
-            console.log(response.data)
-            // if (fileFields.length > 0){
-            //     let values = []
-            //     fileFields.map(file => {values.push(response.data[file])})
-            //     setFileFields(values)
-            // }
+        setCreate(false)
+        setUpdateUrl(update_url(id))
+        axios.get(update_url(id)).then((response) => {
+            reset(response.data)
+            if (fileFields.length > 0) {
+                let values = []
+                fileFields.map(file => {
+                    return values.push(response.data[file])
+                })
+                setFileFields(values)
+            }
         })
     }
     useEffect(() => {
         axios.get(list_url).then((response) => {
             setState(response.data)
+            console.log(response.data, list_url)
         })
     }, [list_url])
 
@@ -77,9 +85,21 @@ const CRUD = (props) => {
             </td>
         </tr>
     )
-
+    const getFormData = (data) => {
+        console.log(fileFields.length, fileFields.length > 0)
+        if (fileFields.length > 0) {
+            const formData = new FormData()
+            headData.forEach(field => {
+                if (!fileFields.includes(field)) formData.append(field, data[field])
+                else formData.append(field,data[field][0])
+            })
+            return formData
+        } else return data
+    }
     const onSubmit = async (data) => {
-        await create(data, create_url)
+        let formData = getFormData(data)
+        if (createForm) await create(formData, create_url, dataList, setState, setShow)
+        else await update(formData, updateUrl, dataList, setState, setShow)
     };
     if (!dataList) return <p>Loading ...</p>
     else return (

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import CRUD from "../../../components/crud/CRUD";
 import FormInput from "../../../components/form/form_input/FormInput";
 import {useForm} from "react-hook-form";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 
 function CV() {
     const {
@@ -11,14 +11,17 @@ function CV() {
         formState: {errors},
         reset,
     } = useForm();
+    /* no-unused-vars */
     const list_url = `${process.env.REACT_APP_API_ROOT_V1}cv/`
+    const [fileFields, setFileFields] = useState('')
+
     const detail_url = (id) => {
-        return `${list_url}${id}/?employee_id=${employee_id()}`
+        return `${list_url}${id}/?user_id=${user_id()}`
     }
     const formField = <div className="row">
         <div className="col-6">
             <FormInput
-                name={'resume_name'}
+                name={'name'}
                 register={register}
                 errors={errors}
                 required={true}
@@ -33,27 +36,27 @@ function CV() {
                 type={'file'}
                 required={true}
             />
-            {/*<p>*/}
-            {/*    Current Resume:*/}
-            {/*    <a href={resume} className="text-primary" target={'_blank'} rel={'noopener noreferrer'}>*/}
-            {/*        {resume ? resume.split('/').pop() : 'No Resume Uploaded'}*/}
-            {/*    </a>*/}
-            {/*</p>*/}
+            <p>
+                Resume:{fileFields[0] ? <a href={fileFields[0]} className="text-primary" target={'_blank'}
+                                           rel={'noopener noreferrer'}> {fileFields[0].split('/').pop()} </a> :
+                <b> No File Found</b>}
+            </p>
         </div>
     </div>
     return (
         <div>
             <CRUD
-                headData={['resume_name', 'resume']}
+                headData={['name', 'resume']}
                 handleSubmit={handleSubmit}
                 formField={formField}
                 page_title={'Resume'}
-                list_url={`${list_url}?employee_id=${employee_id()}`}
-                create_url={`${list_url}?employee_id=${employee_id()}`}
+                list_url={`${list_url}?user_id=${user_id()}`}
+                create_url={`${list_url}?user_id=${user_id()}`}
                 update_url={detail_url}
                 delete_url={detail_url}
                 reset={reset}
                 fileFields={['resume']}
+                setFileFields={setFileFields}
             />
         </div>
     );

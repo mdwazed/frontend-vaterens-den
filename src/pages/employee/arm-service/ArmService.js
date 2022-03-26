@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {Delete} from "../../../utils/actions";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 
 const tableHead = [
     'id',
@@ -22,7 +22,7 @@ const renderHead = (item, index) => <th key={index}>{item}</th>
 const ArmService = () => {
     const [arm_services, setState] = useState([])
     useEffect(() => {
-        axios.get(`/arm-service/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
+        axios.get(`/arm-service/?user_id=${user_id()}`).then((response) => {setState(response.data)})
     }, [])
     console.log(arm_services)
     const delete_arm_service = (id) => {

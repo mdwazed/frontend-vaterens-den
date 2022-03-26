@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {Delete} from "../../../utils/actions";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 import moment from "moment";
 
 const tableHead = [
@@ -26,7 +26,7 @@ const renderHead = (item, index) => <th key={index}>{item}</th>
 const Training = () => {
     const [trainings, setState] = useState([])
     useEffect(() => {
-        axios.get(`/training/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
+        axios.get(`/training/?user_id=${user_id()}`).then((response) => {setState(response.data)})
     }, [])
     console.log(trainings)
     const delete_training = (id) => {

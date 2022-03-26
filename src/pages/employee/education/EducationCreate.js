@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 import {create} from "../../../utils/actions";
 import FormInput from "../../../components/form/form_input/FormInput";
 import Button from "../../../components/button/Button";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 
 const EducationCreate = () => {
     const {
@@ -27,7 +27,7 @@ const EducationCreate = () => {
         console.log(form_data)
         create(
             form_data,
-            `${process.env.REACT_APP_API_ROOT_V1}education/?employee_id=${employee_id()}`,
+            `${process.env.REACT_APP_API_ROOT_V1}education/?user_id=${user_id()}`,
             history, '/employee/education/'
         )
     };

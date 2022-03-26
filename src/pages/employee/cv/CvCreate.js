@@ -4,7 +4,7 @@ import {useHistory} from "react-router-dom";
 import {create} from "../../../utils/actions";
 import FormInput from "../../../components/form/form_input/FormInput";
 import Button from "../../../components/button/Button";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 
 const CvCreate = () => {
     const {
@@ -18,11 +18,11 @@ const CvCreate = () => {
 
 
     const onSubmit = async (data) => {
-        formData.append('resume_name', data.resume_name)
+        formData.append('name', data.name)
         // formData.append('social_links', data.social_links)
         if (data.cv) formData.append('resume', data.resume[0])
         create(
-            formData, `${process.env.REACT_APP_API_ROOT_V1}cv/?employee_id=${employee_id()}`, history, '/employee/cv/'
+            formData, `${process.env.REACT_APP_API_ROOT_V1}cv/?user_id=${user_id()}`, history, '/employee/cv/'
         )
     };
 
@@ -42,7 +42,7 @@ const CvCreate = () => {
                                     <div className="row">
                                         <div className="col-6">
                                             <FormInput
-                                                name={'resume_name'}
+                                                name={'name'}
                                                 register={register}
                                                 errors={errors}
                                                 required={true}

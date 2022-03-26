@@ -1,7 +1,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export const create = (data, url, history = null, redirect = '') => {
+export const create = (data, url, listData, setState, setShow, history = null, redirect = '') => {
     axios.post(url, data).then(() => {
         Swal.fire(
             'Success!',
@@ -15,13 +15,15 @@ export const create = (data, url, history = null, redirect = '') => {
             for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
             Swal.fire('Error', message, 'error')
         })
-        .then(() => {
+        .then((res) => {
             if (history !== null && redirect !== '') history.push(redirect)
+            if (listData && setState) setState(listData.push(res.data))
+            if (setShow) setShow(false)
         })
 
 }
 
-export const update = (data, url, history = null, redirect = '') => {
+export const update = (data, url, listData, setState, setShow, history = null, redirect = '') => {
     axios.put(url, data).then(() => {
         Swal.fire(
             'Success!',
@@ -36,8 +38,16 @@ export const update = (data, url, history = null, redirect = '') => {
             for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
             Swal.fire('Error', message, 'error')
         })
-        .then(() => {
+        .then((res) => {
             if (history !== null && redirect !== '') history.push(redirect)
+            if (listData){
+                let newList = listData
+                listData?.map(item =>
+                    item.id === parseInt(url.match(/[0-9]+/g)[0]) ? newList[newList.indexOf(item)] = item : newList = listData
+                )
+                setState(newList)
+            }
+            if (setShow) setShow(false)
         })
 }
 

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 import axios from "axios";
 
 const CvDetail = (props) => {
-    const update_url = `${process.env.REACT_APP_API_ROOT_V1}cv/${props.match.params.id}/?employee_id=${employee_id()}`
+    const update_url = `${process.env.REACT_APP_API_ROOT_V1}cv/${props.match.params.id}/?user_id=${user_id()}`
     const [resume, setResume] = useState({})
     useEffect(() => {
         axios
@@ -18,7 +18,7 @@ const CvDetail = (props) => {
         <div>
             <div className="row">
                 <div className="col-10">
-                    <h2 className="page-header">Resume <span className="text-primary">{resume.resume_name}</span></h2>
+                    <h2 className="page-header">Resume <span className="text-primary">{resume.name}</span></h2>
                 </div>
             </div>
             <div className="card">

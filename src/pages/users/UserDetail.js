@@ -109,7 +109,7 @@ const UserDetail = (props) => {
                                                 <div className="list-group w-100">
                                                     {user.employee.cv.map((c) => {
                                                         return <Link to={`/employee/cv/${c.id}/detail`} className="list-group-item list-group-item-action  border-0">
-                                                            {c.resume_name}  <span className="badge badge-secondary float-right">12 <i className="fa fa-eye" /></span>
+                                                            {c.name}  <span className="badge badge-secondary float-right">12 <i className="fa fa-eye" /></span>
                                                         </Link>
                                                     })}
                                                 </div>

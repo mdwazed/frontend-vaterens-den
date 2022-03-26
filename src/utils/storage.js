@@ -1,8 +1,8 @@
-export const employee_id = () => {
-    let e_id = localStorage.getItem('employee_id')
-    if (!e_id) {
-        localStorage.setItem('employee_id', 2)
-        e_id = localStorage.getItem('employee_id')
+export const user_id = () => {
+    let u_id = localStorage.getItem('user_id')
+    if (!u_id) {
+        localStorage.setItem('user_id', 2)
+        u_id = localStorage.getItem('user_id')
     }
-    return e_id
+    return u_id
 }

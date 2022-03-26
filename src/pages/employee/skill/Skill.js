@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {Delete} from "../../../utils/actions";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 import Badge from "../../../components/badge/Badge";
 
 const tableHead = [
@@ -25,7 +25,7 @@ const renderHead = (item, index) => <th key={index}>{item}</th>
 const Skill = () => {
     const [skills, setState] = useState([])
     useEffect(() => {
-        axios.get(`/skill/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
+        axios.get(`/skill/?user_id=${user_id()}`).then((response) => {setState(response.data)})
     }, [])
     console.log(skills)
     const delete_skill = (id) => {

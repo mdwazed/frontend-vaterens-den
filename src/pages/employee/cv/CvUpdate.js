@@ -6,7 +6,7 @@ import FormInput from "../../../components/form/form_input/FormInput";
 import TextArea from "../../../components/form/form_input/TextArea";
 import Button from "../../../components/button/Button";
 import axios from "axios";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 
 const CvUpdate = (props) => {
     const {
@@ -18,7 +18,7 @@ const CvUpdate = (props) => {
 
     const history = useHistory()
     let formData = new FormData()
-    const update_url = `${process.env.REACT_APP_API_ROOT_V1}cv/${props.match.params.id}/?employee_id=${employee_id()}`
+    const update_url = `${process.env.REACT_APP_API_ROOT_V1}cv/${props.match.params.id}/?user_id=${user_id()}`
     const [resume, setResume] = useState('')
     useEffect(() => {
         axios

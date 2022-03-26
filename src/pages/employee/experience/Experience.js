@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {Delete} from "../../../utils/actions";
-import {employee_id} from "../../../utils/storage";
+import {user_id} from "../../../utils/storage";
 import Badge from "../../../components/badge/Badge";
 import moment from "moment";
 
@@ -28,7 +28,7 @@ const renderHead = (item, index) => <th key={index}>{item}</th>
 const Experience = () => {
     const [experiences, setState] = useState([])
     useEffect(() => {
-        axios.get(`/experience/?employee_id=${employee_id()}`).then((response) => {setState(response.data)})
+        axios.get(`/experience/?user_id=${user_id()}`).then((response) => {setState(response.data)})
     }, [])
     const delete_experience = (id) => {
         Swal.fire({
