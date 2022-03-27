@@ -1,99 +1,107 @@
-import React, {useEffect, useState} from 'react'
-
-import Table from '../../../components/table/Table'
-import Button from "../../../components/button/Button";
-import IconButton from "../../../components/button/IconButton";
-import {Link} from "react-router-dom";
-import axios from "axios";
-import Swal from "sweetalert2";
-import {Delete} from "../../../utils/actions";
+import React from 'react';
+import CRUD from "../../../components/crud/CRUD";
+import FormInput from "../../../components/form/form_input/FormInput";
+import {useForm} from "react-hook-form";
 import {user_id} from "../../../utils/storage";
-import Badge from "../../../components/badge/Badge";
-import moment from "moment";
+import TextArea from "../../../components/form/form_input/TextArea";
 
-const tableHead = [
-    'id',
-    'designation',
-    'company',
-    'description',
-    'join date',
-    'resign date',
-    'still working',
-    'action'
-]
-const renderHead = (item, index) => <th key={index}>{item}</th>
+function Skill() {
+    const {
+        handleSubmit,
+        register,
+        formState: {errors},
+        reset,
+    } = useForm();
+    /* no-unused-vars */
+    const list_url = `${process.env.REACT_APP_API_ROOT_V1}experience/`
 
-
-
-const Experience = () => {
-    const [experiences, setState] = useState([])
-    useEffect(() => {
-        axios.get(`/experience/?user_id=${user_id()}`).then((response) => {setState(response.data)})
-    }, [])
-    const delete_experience = (id) => {
-        Swal.fire({
-            title: 'Are you sure you want to delete this?',
-            showCancelButton: true,
-            confirmButtonText: 'Delete',
-            icon: 'question',
-            confirmButtonColor: 'red'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                return Delete(`${process.env.REACT_APP_API_ROOT_V1}experience/${id}/`, id, experiences, setState)
-            }
-        })
+    const detail_url = (id) => {
+        return `${list_url}${id}/?user_id=${user_id()}`
     }
-    const renderBody = (item, index) => (
-        <tr key={index}>
-            <td>{item.id}</td>
-            <td>{item.designation}</td>
-            <td>{item.company}</td>
-            <td>{item.description}</td>
-            <td>{moment(item.joined_date).format('MMMM d, YYYY')}</td>
-            <td>{moment(item.resign_date).format('MMMM d, YYYY')}</td>
-            <td>
-                <Badge type={'primary'} content={item.still_working ? 'YES' : 'NO'} />
-            </td>
-            <td className={'d-flex'}>
-                <Link to={`/employee/experience/${item.id}/update`}>
-                    <IconButton type={'warning'} icon_class={'bx-edit'}/>
-                </Link>
-                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_experience(item.id)}/>
-            </td>
-        </tr>
-    )
-    if (!experiences) return <p>Loading ...</p>
-    else return (
-        <div>
-            <div className="row">
-                <div className="col-10">
-                    <h2 className="page-header">
-                        Experience List
-                    </h2>
-                </div>
-                <div className="col-2">
-                    <Link to={'/employee/experience/create'}>
-                        <Button color={'primary'} content={'Add New Experience'}/>
-                    </Link>
-                </div>
+
+    const formField = <>
+        <div className="row">
+            <div className="col-6">
+                <FormInput
+                    label={'designation'}
+                    name={'designation'}
+                    register={register}
+                    errors={errors}
+                    required={true}
+                />
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <div className="card">
-                        <div className="card__body">
-                            <Table
-                                limit='10'
-                                headData={tableHead}
-                                renderHead={(item, index) => renderHead(item, index)}
-                                bodyData={experiences}
-                                renderBody={(item, index) => renderBody(item, index)}
-                            />
-                        </div>
-                    </div>
-                </div>
+
+            <div className="col-6">
+                <FormInput
+                    label={'company name'}
+                    name={'company'}
+                    register={register}
+                    errors={errors}
+                    required={true}
+                />
             </div>
         </div>
-    )
+        <div className="row">
+
+            <div className="col-6">
+                <TextArea
+                    label={'description'}
+                    name={'description'}
+                    register={register}
+                    errors={errors}
+                    required={true}
+                />
+            </div>
+            <div className="col-6">
+                <FormInput
+                    name={'still_working'}
+                    register={register}
+                    errors={errors}
+                    type={'checkbox'}
+                />
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-6">
+                <FormInput
+                    name={'joined_date'}
+                    register={register}
+                    errors={errors}
+                    type={'date'}
+                    required={true}
+                />
+            </div>
+            <div className="col-6">
+                <FormInput
+                    name={'resign_date'}
+                    register={register}
+                    errors={errors}
+                    type={'date'}
+                />
+            </div>
+        </div>
+    </>
+    return (
+        <div>
+            <CRUD
+                headData={['designation', 'company',
+                    'description',
+                    'joined_date',
+                    'resign_date',
+                    'still_working',]}
+                handleSubmit={handleSubmit}
+                formField={formField}
+                page_title={'Experience'}
+                list_url={`${list_url}?user_id=${user_id()}`}
+                create_url={`${list_url}?user_id=${user_id()}`}
+                update_url={detail_url}
+                delete_url={detail_url}
+                reset={reset}
+                booleanFields={['still_working']}
+
+            />
+        </div>
+    );
 }
 
-export default Experience
+export default Skill;

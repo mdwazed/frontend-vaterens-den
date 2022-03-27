@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CRUD from "../../../components/crud/CRUD";
 import FormInput from "../../../components/form/form_input/FormInput";
 import {useForm} from "react-hook-form";
 import {user_id} from "../../../utils/storage";
+import {FormFieldLoader} from "../../../components/crud/formFieldLoader";
 
 function CV() {
     const {
@@ -43,6 +44,9 @@ function CV() {
             </p>
         </div>
     </div>
+    useEffect(()=> {
+        FormFieldLoader(list_url)
+    })
     return (
         <div>
             <CRUD

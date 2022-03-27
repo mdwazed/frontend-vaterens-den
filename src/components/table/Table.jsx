@@ -39,7 +39,7 @@ const Table = props => {
     return (
         <div>
             <div className="table-wrapper">
-                <table>
+                <table className={'table-hover'}>
                     {
                         props.headData && props.renderHead ? (
                             <thead>

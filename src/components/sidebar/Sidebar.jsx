@@ -4,8 +4,6 @@ import {Link} from 'react-router-dom'
 
 import './sidebar.css'
 
-import logo from '../../assets/images/logo.png'
-
 import sidebar_items from '../../routes/sidebar_routes.json'
 import sidebar_employee_menu from '../../routes/sidebar_employee.json'
 
@@ -37,7 +35,7 @@ const Sidebar = props => {
         <div className='sidebar'>
             <Link to={'/'}>
                 <div className="sidebar__logo">
-                    <img src={logo} alt="company logo"/>
+                   <h3 className={'text-primary'}>Veterans Dens</h3>
                 </div>
             </Link>
             {

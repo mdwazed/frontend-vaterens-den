@@ -1,93 +1,86 @@
-import React, {useEffect, useState} from 'react'
-
-import Table from '../../../components/table/Table'
-import Button from "../../../components/button/Button";
-import IconButton from "../../../components/button/IconButton";
-import {Link} from "react-router-dom";
-import axios from "axios";
-import Swal from "sweetalert2";
-import {Delete} from "../../../utils/actions";
+import React, {useState} from 'react';
+import CRUD from "../../../components/crud/CRUD";
+import FormInput from "../../../components/form/form_input/FormInput";
+import {useForm} from "react-hook-form";
 import {user_id} from "../../../utils/storage";
-import moment from "moment";
 
-const tableHead = [
-    'id',
-    'name',
-    'description',
-    'certificate',
-    'issue_date',
-    'action'
-]
-const renderHead = (item, index) => <th key={index}>{item}</th>
+function Award() {
+    const {
+        handleSubmit,
+        register,
+        formState: {errors},
+        reset,
+    } = useForm();
+    /* no-unused-vars */
+    const list_url = `${process.env.REACT_APP_API_ROOT_V1}award/`
+    const [fileFields, setFileFields] = useState('')
 
-
-
-const Award = () => {
-    const [awards, setState] = useState([])
-    useEffect(() => {
-        axios.get(`/award/?user_id=${user_id()}`).then((response) => {setState(response.data)})
-    }, [])
-    console.log(awards)
-    const delete_award = (id) => {
-        Swal.fire({
-            title: 'Are you sure you want to delete this?',
-            showCancelButton: true,
-            confirmButtonText: 'Delete',
-            icon: 'question',
-            confirmButtonColor: 'red'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                return Delete(`${process.env.REACT_APP_API_ROOT_V1}award/${id}/`, id, awards, setState)
-            }
-        })
+    const detail_url = (id) => {
+        return `${list_url}${id}/?user_id=${user_id()}`
     }
-    const renderBody = (item, index) => (
-        <tr key={index}>
-            <td>{item.id}</td>
-            <td>{item.name}</td>
-            <td>{item.description}</td>
-            <td>{item.certificate ? item.certificate.split('/').pop()  : 'No Certificate Uploaded'}</td>
-            <td>{moment(item.issue_date).format('MMMM d, YYYY')}</td>
-            <td className={'d-flex'}>
-                <Link to={`/employee/award/${item.id}/update`}>
-                    <IconButton type={'warning'} icon_class={'bx-edit'}/>
-                </Link>
-                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_award(item.id)}/>
-            </td>
-        </tr>
-    )
-    if (!awards) return <p>Loading ...</p>
-    else return (
-        <div>
-            <div className="row">
-                <div className="col-10">
-                    <h2 className="page-header">
-                        Award List
-                    </h2>
-                </div>
-                <div className="col-2">
-                    <Link to={'/employee/award/create'}>
-                        <Button color={'primary'} content={'Add New Award'}/>
-                    </Link>
-                </div>
+
+    const formField = <>
+        <div className="row">
+            <div className="col-6">
+                <FormInput
+                    name={'name'}
+                    register={register}
+                    errors={errors}
+                />
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <div className="card">
-                        <div className="card__body">
-                            <Table
-                                limit='10'
-                                headData={tableHead}
-                                renderHead={(item, index) => renderHead(item, index)}
-                                bodyData={awards}
-                                renderBody={(item, index) => renderBody(item, index)}
-                            />
-                        </div>
-                    </div>
-                </div>
+            <div className="col-6">
+                <FormInput
+                    name={'description'}
+                    register={register}
+                    errors={errors}
+                />
             </div>
         </div>
-    )
+        <div className="row">
+            <div className="col-8">
+                <FormInput
+                    name={'certificate'}
+                    register={register}
+                    errors={errors}
+                    type={'file'}
+                />
+                <p>
+                    Certificate:{fileFields[0] ? <a href={fileFields[0]} className="text-primary" target={'_blank'}
+                                                    rel={'noopener noreferrer'}> {fileFields[0].split('/').pop()} </a> :
+                    <b> No File Found</b>}
+                </p>
+            </div>
+            <div className="col-4">
+                <FormInput
+                    name={'issue_date'}
+                    register={register}
+                    errors={errors}
+                    type={'date'}
+                />
+            </div>
+        </div>
+    </>
+    return (
+        <div>
+            <CRUD
+                headData={['name',
+                    'description',
+                    'certificate',
+                    'issue_date']}
+                handleSubmit={handleSubmit}
+                formField={formField}
+                page_title={'Award'}
+                list_url={`${list_url}?user_id=${user_id()}`}
+                create_url={`${list_url}?user_id=${user_id()}`}
+                update_url={detail_url}
+                delete_url={detail_url}
+                reset={reset}
+                fileFields={['certificate']}
+                setFileFields={setFileFields}
+
+            />
+        </div>
+    );
 }
 
-export default Award
+export default Award;

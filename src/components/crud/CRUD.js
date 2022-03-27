@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import IconButton from "../button/IconButton";
 import {Button} from "react-bootstrap";
 import Table from "../table/Table";
+import Badge from "../badge/Badge";
 
 const renderHead = (item, index) => <th key={index}>{item.replace('_', ' ')}</th>
 const CRUD = (props) => {
@@ -27,6 +28,7 @@ const CRUD = (props) => {
         formField,
         fileFields, setFileFields,
         reset,
+        booleanFields,
     } = props
 
     const tableHead = ['SL', ...headData, 'action']
@@ -74,14 +76,19 @@ const CRUD = (props) => {
         <tr key={index}>
             <td>{index}</td>
             {headData?.map((ele, i) => {
-                if(fileFields.includes(ele)) {
+                if(fileFields?.includes(ele)) {
                     return (
                         <td key={i}>
                             <a className={'badge badge-secondary'} target={'_blank'} href={item[ele]}>
-                                {item[ele].split('/').pop()}
+                                {item[ele]?.split('/').pop()}
                             </a>
                         </td>
                     )
+                }
+                else if (booleanFields?.includes(ele)){
+                    return <td key={i}>
+                        <Badge type={'primary'} content={item[ele] ? 'YES' : 'NO'} />
+                    </td>
                 }
                 else return <td key={i}>{item[ele]}</td>
             })}
@@ -97,11 +104,11 @@ const CRUD = (props) => {
         </tr>
     )
     const getFormData = (data) => {
-        console.log(fileFields.length, fileFields.length > 0)
-        if (fileFields.length > 0) {
+        console.log(fileFields?.length, fileFields?.length > 0)
+        if (fileFields?.length > 0) {
             const formData = new FormData()
             headData.forEach(field => {
-                if (!fileFields.includes(field)) formData.append(field, data[field])
+                if (!fileFields?.includes(field)) formData.append(field, data[field])
                 else formData.append(field,data[field][0])
             })
             return formData

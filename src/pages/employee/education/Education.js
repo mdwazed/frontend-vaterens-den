@@ -1,96 +1,100 @@
-import React, {useEffect, useState} from 'react'
-
-import Table from '../../../components/table/Table'
-import Button from "../../../components/button/Button";
-import IconButton from "../../../components/button/IconButton";
-import {Link} from "react-router-dom";
-import axios from "axios";
-import Swal from "sweetalert2";
-import {Delete} from "../../../utils/actions";
+import React from 'react';
+import CRUD from "../../../components/crud/CRUD";
+import FormInput from "../../../components/form/form_input/FormInput";
+import {useForm} from "react-hook-form";
 import {user_id} from "../../../utils/storage";
-import Badge from "../../../components/badge/Badge";
+import SelectInput from "../../../components/form/form_input/SelectInput";
 
-const tableHead = [
-    'id',
-    'education_level',
-    'institute name',
-    'result',
-    'year of completion',
-    'still reading',
-    'action'
-]
-const renderHead = (item, index) => <th key={index}>{item}</th>
+function Education() {
+    const {
+        handleSubmit,
+        register,
+        formState: {errors},
+        reset,
+    } = useForm();
+    /* no-unused-vars */
+    const list_url = `${process.env.REACT_APP_API_ROOT_V1}education/`
 
-
-
-const Education = () => {
-    const [educations, setState] = useState([])
-    useEffect(() => {
-        axios.get(`/education/?user_id=${user_id()}`).then((response) => {setState(response.data)})
-    }, [])
-    const delete_education = (id) => {
-        Swal.fire({
-            title: 'Are you sure you want to delete this?',
-            showCancelButton: true,
-            confirmButtonText: 'Delete',
-            icon: 'question',
-            confirmButtonColor: 'red'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                return Delete(`${process.env.REACT_APP_API_ROOT_V1}education/${id}/`, id, educations, setState)
-            }
-        })
+    const detail_url = (id) => {
+        return `${list_url}${id}/?user_id=${user_id()}`
     }
-    const renderBody = (item, index) => (
-        <tr key={index}>
-            <td>{item.id}</td>
-            <td>{item.education_level}</td>
-            <td>{item.institute_name}</td>
-            <td>{item.result}</td>
-            <td>{item.year_of_completion}</td>
-            <td>
-                <Badge type={'primary'} content={item.still_reading ? 'YES' : 'NO'} />
-            </td>
-            <td className={'d-flex'}>
-                <Link to={`/employee/education/${item.id}/update`}>
-                    <IconButton type={'warning'} icon_class={'bx-edit'}/>
-                </Link>
-                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_education(item.id)}/>
-            </td>
-        </tr>
-    )
-    if (!educations) return <p>Loading ...</p>
-    else return (
-        <div>
-            <div className="row">
-                <div className="col-10">
-                    <h2 className="page-header">
-                        Education List
-                    </h2>
-                </div>
-                <div className="col-2">
-                    <Link to={'/employee/education/create'}>
-                        <Button color={'primary'} content={'Add New Education'}/>
-                    </Link>
-                </div>
+    const formField = <>
+        <div className="row">
+            <div className="col-6">
+                <SelectInput
+                    label={'education level'}
+                    name={'education_level'}
+                    register={register}
+                    errors={errors}
+                    required={true}
+                    options={[
+                        {'value':'', 'label':'Select Option'},
+                        {'value':'SSC', 'label':'Secondary School Certificate'},
+                        {'value':'HSC', 'label':'Higher School Certificate'},
+                        {'value':'Diploma', 'label':'Diploma In Engineering'},
+                        {'value':'BSC', 'label':'Bachelor Of Science'},
+                    ]}
+                />
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <div className="card">
-                        <div className="card__body">
-                            <Table
-                                limit='10'
-                                headData={tableHead}
-                                renderHead={(item, index) => renderHead(item, index)}
-                                bodyData={educations}
-                                renderBody={(item, index) => renderBody(item, index)}
-                            />
-                        </div>
-                    </div>
-                </div>
+
+            <div className="col-6">
+                <FormInput
+                    label={'institute name'}
+                    name={'institute_name'}
+                    register={register}
+                    errors={errors}
+                    required={true}
+                />
             </div>
         </div>
-    )
+        <div className="row">
+
+            <div className="col-6">
+                <FormInput
+                    label={'Result'}
+                    name={'result'}
+                    register={register}
+                    errors={errors}
+                />
+            </div>
+            <div className="col-6">
+                <FormInput
+                    name={'still_reading'}
+                    register={register}
+                    errors={errors}
+                    type={'checkbox'}
+                />
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-6">
+                <FormInput
+                    name={'year_of_completion'}
+                    register={register}
+                    errors={errors}
+                    type={'number'}
+                />
+            </div>
+        </div>
+    </>
+
+    return (
+        <div>
+            <CRUD
+                headData={['education_level', 'institute_name', 'result', 'still_reading', 'year_of_completion']}
+                handleSubmit={handleSubmit}
+                formField={formField}
+                page_title={'Education'}
+                list_url={`${list_url}?user_id=${user_id()}`}
+                create_url={`${list_url}?user_id=${user_id()}`}
+                update_url={detail_url}
+                delete_url={detail_url}
+                reset={reset}
+                booleanFields={['still_reading']}
+
+            />
+        </div>
+    );
 }
 
-export default Education
+export default Education;

@@ -8,17 +8,18 @@ function SelectInput(props) {
         multiple=false,
         className='form-control',
         errors,
-        options
+        options,
+        required = false
     } = props;
     return (
         <div className={'FormInput'}>
             <label htmlFor={name}>{label}</label>
-            <select className={className} multiple={multiple} name={name} id={name} {...register(name, {required: "This field is required",})}>
+            <select className={className} multiple={multiple} name={name} id={name} {...register(name, {required: required,})}>
                 {options.map((option, index) => {
                     return <option key={index} value={option.value}>{option.label}</option>
                 })}
             </select>
-            <p className={'text-danger'}> {errors[name] && errors[name].message ? errors[name].message : null}</p>
+            <p className={'text-danger'}> {errors[name] && <span>This field is required</span>}</p>
         </div>
     );
 }

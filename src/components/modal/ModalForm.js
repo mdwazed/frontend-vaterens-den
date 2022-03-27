@@ -2,9 +2,10 @@ import React from 'react';
 import {Button, Modal} from "react-bootstrap";
 
 const ModalForm = (props) => {
+    const {size = 'lg'} = props
     return (
         <div>
-            <Modal show={props.show} onHide={props.onHide}>
+            <Modal show={props.show} onHide={props.onHide} size={size}>
                 <form onSubmit={props.onSubmit}>
                     <Modal.Header closeButton>
                         <Modal.Title>{props.title}</Modal.Title>

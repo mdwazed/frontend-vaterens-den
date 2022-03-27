@@ -17,7 +17,7 @@ export const create = (data, url, listData, setState, setShow, history = null, r
         })
         .then((res) => {
             if (history !== null && redirect !== '') history.push(redirect)
-            if (listData && setState) setState(listData.push(res.data))
+            if (listData && setState) setState(listData.push(res?.data))
             if (setShow) setShow(false)
         })
 
