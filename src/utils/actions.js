@@ -1,8 +1,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export const create = (data, url, listData, setState, setShow, history = null, redirect = '') => {
-    axios.post(url, data).then(() => {
+export const create = (data, url, listData, setState, setShow) => {
+    return axios.post(url, data).then(() => {
         Swal.fire(
             'Success!',
             'Created successfully',
@@ -16,39 +16,32 @@ export const create = (data, url, listData, setState, setShow, history = null, r
             Swal.fire('Error', message, 'error')
         })
         .then((res) => {
-            if (history !== null && redirect !== '') history.push(redirect)
             if (listData && setState) setState(listData.push(res?.data))
             if (setShow) setShow(false)
         })
 
 }
 
-export const update = (data, url, listData, setState, setShow, history = null, redirect = '') => {
-    axios.put(url, data).then(() => {
+export const update = (data, url, listData, setState, setShow) => {
+    return  axios.put(url, data).then(
         Swal.fire(
             'Success!',
             'Updated successfully',
             'success'
         )
-    })
-
+    )
         .catch(function (error) {
             let message = ''
-            let keys = Object.keys(error.response.data)
-            for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
+            let keys = Object.keys(error.response?.data)
+            for (let i = 0; i < keys.length; i++) message += `${error.response?.data[keys[i]][0]}<br>`
             Swal.fire('Error', message, 'error')
-        })
-        .then((res) => {
-            if (history !== null && redirect !== '') history.push(redirect)
-            if (listData){
-                let newList = listData
-                listData?.map(item =>
-                    item.id === parseInt(url.match(/[0-9]+/g)[0]) ? newList[newList.indexOf(item)] = item : newList = listData
-                )
-                setState(newList)
-            }
-            if (setShow) setShow(false)
-        })
+        }).then(res => {
+        if (listData) {
+            listData[listData.findIndex(el => el.id === parseInt(url.match(/[0-9]+/g)[0]))] = res.data;
+            setState(listData)
+        }
+        if (setShow) setShow(false)
+    })
 }
 
 export const Delete = (url, id, listData, setState) => {

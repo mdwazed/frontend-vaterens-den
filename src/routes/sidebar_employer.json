@@ -1,0 +1,18 @@
+[
+
+  {
+    "display_name": "Category",
+    "route": "/employer/category",
+    "icon": "bx bxs-component"
+  },
+  {
+    "display_name": "Company",
+    "route": "/employer/company",
+    "icon": "bx bx-buildings"
+  },
+  {
+    "display_name": "Job",
+    "route": "/employer/jobs",
+    "icon": "bx bxs-user-badge"
+  }
+]

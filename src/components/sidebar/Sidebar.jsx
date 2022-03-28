@@ -6,9 +6,11 @@ import './sidebar.css'
 
 import sidebar_items from '../../routes/sidebar_routes.json'
 import sidebar_employee_menu from '../../routes/sidebar_employee.json'
+import sidebar_employer_menu from '../../routes/sidebar_employer.json'
 
 const get_route_list = (pathname) => {
     if (pathname.includes('employee') || pathname.includes('profile')) return  sidebar_employee_menu
+    if (pathname.includes('employer') || pathname.includes('company')) return  sidebar_employer_menu
     else return sidebar_items
 }
 

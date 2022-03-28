@@ -8,7 +8,7 @@ import {Button} from "react-bootstrap";
 import Table from "../table/Table";
 import Badge from "../badge/Badge";
 
-const renderHead = (item, index) => <th key={index}>{item.replace('_', ' ')}</th>
+const renderHead = (item, index) => <th key={index}>{item.replaceAll('_', ' ')}</th>
 const CRUD = (props) => {
 
     const {
@@ -53,9 +53,9 @@ const CRUD = (props) => {
         setUpdateUrl(update_url(id))
         axios.get(update_url(id)).then((response) => {
             reset(response.data)
-            if (fileFields.length > 0) {
+            if (fileFields?.length > 0) {
                 let values = []
-                fileFields.map(file => {
+                fileFields?.map(file => {
                     return values.push(response.data[file])
                 })
                 setFileFields(values)
@@ -74,12 +74,12 @@ const CRUD = (props) => {
     }
     const renderBody = (item, index) => (
         <tr key={index}>
-            <td>{index}</td>
+            <td>{index + 1}</td>
             {headData?.map((ele, i) => {
                 if(fileFields?.includes(ele)) {
                     return (
                         <td key={i}>
-                            <a className={'badge badge-secondary'} target={'_blank'} href={item[ele]}>
+                            <a className={'badge badge-secondary'} target={'_blank'} rel={'noreferrer'} href={item[ele]}>
                                 {item[ele]?.split('/').pop()}
                             </a>
                         </td>

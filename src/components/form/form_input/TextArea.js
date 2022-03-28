@@ -7,7 +7,7 @@ const TextArea = (props) => {
     } = props
     return (
         <div className={'FormInput'}>
-            <label htmlFor={name}>{label}</label>
+            <label htmlFor={name}>{label.toUpperCase().replaceAll('_', ' ')}</label>
             <textarea className={className} name={name}
                       id={name}
                       {...register(name, {required: "This field is required" ? required : required,})}

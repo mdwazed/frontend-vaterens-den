@@ -6,8 +6,8 @@
     },
     {
         "icon": "bx bx-file",
-        "content": "My Resume",
-        "route":null
+        "content": "Employer",
+        "route":"/employer"
     },
     {
         "icon": "bx bx-cog",
