@@ -76,21 +76,20 @@ const CRUD = (props) => {
         <tr key={index}>
             <td>{index + 1}</td>
             {headData?.map((ele, i) => {
-                if(fileFields?.includes(ele)) {
+                if (fileFields?.includes(ele)) {
                     return (
                         <td key={i}>
-                            <a className={'badge badge-secondary'} target={'_blank'} rel={'noreferrer'} href={item[ele]}>
+                            <a className={'badge badge-secondary'} target={'_blank'} rel={'noreferrer'}
+                               href={item[ele]}>
                                 {item[ele]?.split('/').pop()}
                             </a>
                         </td>
                     )
-                }
-                else if (booleanFields?.includes(ele)){
+                } else if (booleanFields?.includes(ele)) {
                     return <td key={i}>
-                        <Badge type={'primary'} content={item[ele] ? 'YES' : 'NO'} />
+                        <Badge type={'primary'} content={item[ele] ? 'YES' : 'NO'}/>
                     </td>
-                }
-                else return <td key={i}>{item[ele]}</td>
+                } else return <td key={i}>{item[ele]}</td>
             })}
             <td className={'d-flex'}>
                 <IconButton type={'warning'} onClick={() => {
@@ -108,8 +107,11 @@ const CRUD = (props) => {
         if (fileFields?.length > 0) {
             const formData = new FormData()
             headData.forEach(field => {
+
                 if (!fileFields?.includes(field)) formData.append(field, data[field])
-                else formData.append(field,data[field][0])
+                else if (typeof data[field] !== "string") {
+                    formData.append(field, data[field][0])
+                }
             })
             return formData
         } else return data
