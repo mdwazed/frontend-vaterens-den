@@ -188,7 +188,7 @@ const CreateUser = () => {
                                     </div>
 
                                     <Button type={'submit'} color={'primary float-right mt-3'}
-                                            content={'Save User Info'}/>
+                                            content={'Save Job Info'}/>
                                 </form>
                             </div>
                         </div>

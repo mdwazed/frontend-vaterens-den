@@ -16,12 +16,7 @@ const Table = props => {
     if (props.limit !== undefined && props.bodyData.length !==undefined) {
         let page = Math.floor(props.bodyData.length / Number(props.limit))
         pages = props.bodyData.length % Number(props.limit) === 0 ? page : page + 1
-        console.log('limit = ', props.limit)
-        console.log('props.bodyData.length = ', props.bodyData.length)
-        console.log('page = ', page)
-        console.log('pages = ', pages)
         range = [...Array(pages).keys()]
-        console.log('range = ', pages)
     }
 
     const [currPage, setCurrPage] = useState(0)

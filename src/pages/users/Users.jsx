@@ -44,7 +44,7 @@ const Users = () => {
             confirmButtonColor: 'red'
         }).then(async (result) => {
             if (result.isConfirmed) {
-                Delete(`${process.env.REACT_APP_API_ROOT_V1}user/${id}/`, id, userList, setState)
+                Delete(`${process.env.REACT_APP_API_ROOT_V1}user/${id}/`, id, '/user/', setState)
             }
         })
     }

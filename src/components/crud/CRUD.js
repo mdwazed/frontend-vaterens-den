@@ -70,7 +70,7 @@ const CRUD = (props) => {
     }, [list_url])
 
     const delete_cv = (id) => {
-        return Delete(delete_url(id), id, dataList, setState)
+        return Delete(delete_url(id), id, list_url, setState)
     }
     const renderBody = (item, index) => (
         <tr key={index}>
@@ -118,8 +118,8 @@ const CRUD = (props) => {
     }
     const onSubmit = async (data) => {
         let formData = getFormData(data)
-        if (createForm) await create(formData, create_url, dataList, setState, setShow)
-        else await update(formData, updateUrl, dataList, setState, setShow)
+        if (createForm) await create(formData, create_url, list_url, setState, setShow)
+        else await update(formData, updateUrl, list_url, setState, setShow)
     };
     if (!dataList) return <p>Loading ...</p>
     else return (

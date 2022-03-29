@@ -4,8 +4,9 @@ import {useForm} from "react-hook-form";
 import Button from "../../components/button/Button";
 import FormInput from "../../components/form/form_input/FormInput";
 import SelectInput from "../../components/form/form_input/SelectInput";
-import {create} from "../../utils/actions";
 import {useHistory} from "react-router-dom";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const CreateUser = () => {
 
@@ -28,9 +29,21 @@ const CreateUser = () => {
         formData.append('phone', data.phone)
         formData.append('gender', data.gender)
         if (data.photo) formData.append('photo', data.photo[0])
-        create(
-            formData, `${process.env.REACT_APP_API_ROOT_V1}user/`, history, '/users/'
-        )
+        axios.post('/user/', formData).then((res) => {
+            Swal.fire(
+                'Success!',
+                'Created successfully',
+                'success'
+            ).then(() => {
+                history.push('/users/')
+            })
+        })
+            .catch(function (error) {
+                let message = ''
+                let keys = Object.keys(error.response.data)
+                for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
+                Swal.fire('Error', message, 'error')
+            })
     };
 
     return (
@@ -45,7 +58,7 @@ const CreateUser = () => {
                     <div className="col-12">
                         <div className="card">
                             <div className="card__body">
-                                <form onSubmit={handleSubmit(onSubmit)} >
+                                <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className="row">
                                         <div className="col-6">
                                             <FormInput
@@ -116,8 +129,8 @@ const CreateUser = () => {
                                                 register={register}
                                                 errors={errors}
                                                 options={[
-                                                    {'value':'F', 'label':'Female'},
-                                                    {'value':'M', 'label':'Male'},
+                                                    {'value': 'F', 'label': 'Female'},
+                                                    {'value': 'M', 'label': 'Male'},
                                                 ]}
                                             />
                                         </div>
@@ -133,7 +146,8 @@ const CreateUser = () => {
                                         </div>
                                     </div>
 
-                                    <Button type={'submit'} color={'primary float-right mt-3'} content={'Save User Info'}/>
+                                    <Button type={'submit'} color={'primary float-right mt-3'}
+                                            content={'Save User Info'}/>
                                 </form>
                             </div>
                         </div>

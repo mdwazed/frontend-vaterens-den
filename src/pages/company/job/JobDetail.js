@@ -27,7 +27,7 @@ const JobDetail = (props) => {
                             <h2>{job.title}</h2>
                         </div>
                         <div className="card-body">
-                            {parse(job.description)}
+                            {job.description ? parse(job.description) : 'No Description provided\n' + job.description}
                         </div>
                     </div>
                 </div>

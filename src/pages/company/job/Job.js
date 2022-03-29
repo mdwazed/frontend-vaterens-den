@@ -36,7 +36,7 @@ const Jobs = () => {
     }, [])
     console.log(jobList)
     const delete_job = (id) => {
-        Delete(`${process.env.REACT_APP_API_ROOT_V1}job/${id}/`, id, jobList, setState)
+        Delete(`${process.env.REACT_APP_API_ROOT_V1}job/${id}/`, id, '/job/', setState)
     }
     const renderBody = (item, index) => (
         <tr key={index}>

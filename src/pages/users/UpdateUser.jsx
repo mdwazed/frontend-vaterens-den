@@ -6,7 +6,7 @@ import {useHistory} from "react-router-dom";
 import axios from "axios";
 import FormInput from "../../components/form/form_input/FormInput";
 import SelectInput from "../../components/form/form_input/SelectInput";
-import {update} from "../../utils/actions";
+import Swal from "sweetalert2";
 
 const UpdateUser = (props) => {
     const {
@@ -45,7 +45,21 @@ const UpdateUser = (props) => {
         formData.append('phone', data.phone)
         formData.append('gender', data.gender)
         if (data.photo && data.photo !== photo) formData.append('photo', data.photo[0])
-        await update(formData, `${process.env.REACT_APP_API_ROOT_V1}user/${props.match.params.id}/`, history, '/users/')
+        axios.put(`/user/${props.match.params.id}/`, formData).then((res) => {
+            Swal.fire(
+                'Success!',
+                'Updated successfully',
+                'success'
+            ).then(() => {
+                history.push('/users/')
+            })
+        })
+            .catch(function (error) {
+                let message = ''
+                let keys = Object.keys(error.response?.data)
+                for (let i = 0; i < keys.length; i++) message += `${error.response?.data[keys[i]][0]}<br>`
+                Swal.fire('Error', message, 'error')
+            })
     };
     return (
         <div>
@@ -79,8 +93,8 @@ const UpdateUser = (props) => {
                                                 register={register}
                                                 errors={errors}
                                                 options={[
-                                                    {'value':'F', 'label':'Female'},
-                                                    {'value':'M', 'label':'Male'},
+                                                    {'value': 'F', 'label': 'Female'},
+                                                    {'value': 'M', 'label': 'Male'},
                                                 ]}
                                             />
                                         </div>
@@ -140,7 +154,8 @@ const UpdateUser = (props) => {
                                             />
                                         </div>
                                         <div className="col-6">
-                                            { photo && <img src={photo} className={"avatar"} height={'100px'} alt={'Thumbnail'}/>}
+                                            {photo && <img src={photo} className={"avatar"} height={'100px'}
+                                                           alt={'Thumbnail'}/>}
                                         </div>
                                     </div>
 

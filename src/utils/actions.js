@@ -1,13 +1,20 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export const create = (data, url, listData, setState, setShow) => {
-    return axios.post(url, data).then(() => {
+export const create = (data, url, listUrl, setState, setShow) => {
+    return axios.post(url, data).then((res) => {
         Swal.fire(
             'Success!',
             'Created successfully',
             'success'
-        )
+        ).then(() => {
+            if (listUrl && setState) {
+                axios.get(listUrl).then(res => {
+                    setState(res.data)
+                })
+            }
+            if (setShow) setShow(false)
+        })
     })
         .catch(function (error) {
             let message = ''
@@ -15,36 +22,34 @@ export const create = (data, url, listData, setState, setShow) => {
             for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
             Swal.fire('Error', message, 'error')
         })
-        .then((res) => {
-            if (listData && setState) setState(listData.push(res?.data))
-            if (setShow) setShow(false)
-        })
+
 
 }
 
-export const update = (data, url, listData, setState, setShow) => {
-    return  axios.put(url, data).then(
+export const update = (data, url, listUrl, setState, setShow) => {
+    return axios.put(url, data).then((res) => {
         Swal.fire(
             'Success!',
             'Updated successfully',
             'success'
-        )
-    )
+        ).then(() => {
+            if (listUrl && setState) {
+                axios.get(listUrl).then(res => {
+                    setState(res.data)
+                })
+            }
+            if (setShow) setShow(false)
+        })
+    })
         .catch(function (error) {
             let message = ''
             let keys = Object.keys(error.response?.data)
             for (let i = 0; i < keys.length; i++) message += `${error.response?.data[keys[i]][0]}<br>`
             Swal.fire('Error', message, 'error')
-        }).then(res => {
-        if (listData) {
-            listData[listData.findIndex(el => el.id === parseInt(url.match(/[0-9]+/g)[0]))] = res.data;
-            setState(listData)
-        }
-        if (setShow) setShow(false)
-    })
+        })
 }
 
-export const Delete = (url, id, listData, setState) => {
+export const Delete = (url, id, listUrl, setState) => {
     Swal.fire({
         title: 'Are you sure you want to delete this?',
         showCancelButton: true,
@@ -59,7 +64,11 @@ export const Delete = (url, id, listData, setState) => {
                     'Deleted successfully',
                     'success'
                 ).then(() => {
-                    setState(listData.filter(i => i.id !== id))
+                    if (listUrl && setState) {
+                        axios.get(listUrl).then(res => {
+                            setState(res.data)
+                        })
+                    }
                 })
             }).catch(function (error) {
                 let message = ''
