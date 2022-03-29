@@ -40,7 +40,7 @@ const Jobs = () => {
     }
     const renderBody = (item, index) => (
         <tr key={index}>
-            <td>{item.id}</td>
+            <td>{index + 1}</td>
             <td>{item.title}</td>
             <td>{item.number_of_position}</td>
             <td>{item.job_location}</td>

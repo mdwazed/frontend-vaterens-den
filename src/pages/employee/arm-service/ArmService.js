@@ -1,88 +1,57 @@
-import React, {useEffect, useState} from 'react'
-
-import Table from '../../../components/table/Table'
-import Button from "../../../components/button/Button";
-import IconButton from "../../../components/button/IconButton";
-import {Link} from "react-router-dom";
-import axios from "axios";
-import Swal from "sweetalert2";
-import {Delete} from "../../../utils/actions";
+import React from 'react';
+import CRUD from "../../../components/crud/CRUD";
+import FormInput from "../../../components/form/form_input/FormInput";
+import {useForm} from "react-hook-form";
 import {user_id} from "../../../utils/storage";
 
-const tableHead = [
-    'id',
-    'name',
-    'description',
-    'action'
-]
-const renderHead = (item, index) => <th key={index}>{item}</th>
+function ArmServices() {
+    const {
+        handleSubmit,
+        register,
+        formState: {errors},
+        reset,
+    } = useForm();
+    /* no-unused-vars */
+    const list_url = `${process.env.REACT_APP_API_ROOT_V1}arm-service/`
 
-
-
-const ArmService = () => {
-    const [arm_services, setState] = useState([])
-    useEffect(() => {
-        axios.get(`/arm-service/?user_id=${user_id()}`).then((response) => {setState(response.data)})
-    }, [])
-    console.log(arm_services)
-    const delete_arm_service = (id) => {
-        Swal.fire({
-            title: 'Are you sure you want to delete this?',
-            showCancelButton: true,
-            confirmButtonText: 'Delete',
-            icon: 'question',
-            confirmButtonColor: 'red'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                return Delete(`${process.env.REACT_APP_API_ROOT_V1}arm-service/${id}/`, id, arm_services, setState)
-            }
-        })
+    const detail_url = (id) => {
+        return `${list_url}${id}/?user_id=${user_id()}`
     }
-    const renderBody = (item, index) => (
-        <tr key={index}>
-            <td>{item.id}</td>
-            <td>{item.name}</td>
-            <td>{item.description}</td>
-            <td className={'d-flex'}>
-                <Link to={`/employee/arm-service/${item.id}/update`}>
-                    <IconButton type={'warning'} icon_class={'bx-edit'}/>
-                </Link>
-                <IconButton type={'danger'} icon_class={'bx-trash'} onClick={() => delete_arm_service(item.id)}/>
-            </td>
-        </tr>
-    )
-    if (!arm_services) return <p>Loading ...</p>
-    else return (
-        <div>
-            <div className="row">
-                <div className="col-10">
-                    <h2 className="page-header">
-                        ArmService List
-                    </h2>
-                </div>
-                <div className="col-2">
-                    <Link to={'/employee/arm-service/create'}>
-                        <Button color={'primary'} content={'Add New ArmService'}/>
-                    </Link>
-                </div>
+
+    const formField = <>
+        <div className="row">
+            <div className="col-6">
+                <FormInput
+                    name={'name'}
+                    register={register}
+                    errors={errors}
+                />
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <div className="card">
-                        <div className="card__body">
-                            <Table
-                                limit='10'
-                                headData={tableHead}
-                                renderHead={(item, index) => renderHead(item, index)}
-                                bodyData={arm_services}
-                                renderBody={(item, index) => renderBody(item, index)}
-                            />
-                        </div>
-                    </div>
-                </div>
+            <div className="col-6">
+                <FormInput
+                    name={'description'}
+                    register={register}
+                    errors={errors}
+                />
             </div>
         </div>
-    )
+    </>
+    return (
+        <div>
+            <CRUD
+                headData={['name', 'description']}
+                handleSubmit={handleSubmit}
+                formField={formField}
+                page_title={'Arm Services'}
+                list_url={`${list_url}?user_id=${user_id()}`}
+                create_url={`${list_url}?user_id=${user_id()}`}
+                update_url={detail_url}
+                delete_url={detail_url}
+                reset={reset}
+
+            />
+        </div>
+    );
 }
 
-export default ArmService
+export default ArmServices;

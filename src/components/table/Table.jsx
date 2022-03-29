@@ -13,10 +13,15 @@ const Table = props => {
 
     let range = []
 
-    if (props.limit !== undefined) {
+    if (props.limit !== undefined && props.bodyData.length !==undefined) {
         let page = Math.floor(props.bodyData.length / Number(props.limit))
         pages = props.bodyData.length % Number(props.limit) === 0 ? page : page + 1
+        console.log('limit = ', props.limit)
+        console.log('props.bodyData.length = ', props.bodyData.length)
+        console.log('page = ', page)
+        console.log('pages = ', pages)
         range = [...Array(pages).keys()]
+        console.log('range = ', pages)
     }
 
     const [currPage, setCurrPage] = useState(0)
@@ -30,8 +35,8 @@ const Table = props => {
         setCurrPage(page)
     }
 
-    useEffect(()=> {
-        if(props.bodyData && props.bodyData.length > 0){
+    useEffect(() => {
+        if (props.bodyData && props.bodyData.length > 0) {
             setDataShow(props.bodyData)
         }
     }, [props.bodyData])
@@ -43,23 +48,20 @@ const Table = props => {
                     {
                         props.headData && props.renderHead ? (
                             <thead>
-                                <tr>
-                                    {
-                                        props.headData.map((item, index) => props.renderHead(item, index))
-                                    }
-                                </tr>
+                            <tr>
+                                {
+                                    props.headData.map((item, index) => props.renderHead(item, index))
+                                }
+                            </tr>
                             </thead>
                         ) : null
                     }
                     {
                         dataShow && dataShow.length > 0 ? (
                             <tbody>
-                                {/*{*/}
-                                {/*    dataShow.map((item, index) => )*/}
-                                {/*}*/}
-                                {dataShow.map((item, i) => {
-                                    return props.renderBody(item, i)
-                                })}
+                            {dataShow.map((item, i) => {
+                                return props.renderBody(item, i)
+                            })}
 
                             </tbody>
                         ) : null
@@ -71,7 +73,9 @@ const Table = props => {
                     <div className="table__pagination">
                         {
                             range.map((item, index) => (
-                                <div key={index} className={`table__pagination-item ${currPage === index ? 'active' : ''}`} onClick={() => selectPage(index)}>
+                                <div key={index}
+                                     className={`table__pagination-item ${currPage === index ? 'active' : ''}`}
+                                     onClick={() => selectPage(index)}>
                                     {item + 1}
                                 </div>
                             ))
