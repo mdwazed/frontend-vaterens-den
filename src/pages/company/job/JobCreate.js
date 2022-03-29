@@ -50,7 +50,8 @@ const CreateUser = () => {
 
     const onSubmit = async (data) => {
         data['description'] = description
-        create(
+        console.log(data)
+        await create(
             data, `${process.env.REACT_APP_API_ROOT_V1}job/`
         ).then(() => {
             history.push('/employer/jobs')

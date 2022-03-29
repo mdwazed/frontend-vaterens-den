@@ -29,7 +29,7 @@ const JobUpdate = (props) => {
     }
 
     let api_root = process.env.REACT_APP_API_ROOT_V1
-    useEffect(() => {
+    const load_data = () => {
         axios
             .get(`${api_root}job/${props.match.params.id}/`)
             .then((response) => {
@@ -37,26 +37,25 @@ const JobUpdate = (props) => {
                 setJob(response.data)
                 setDescription(response.data.description)
             });
+    }
+    useEffect(() => {
+        load_data()
         axios.get(`${api_root}category/?user_id=${user_id()}`).then(r => {
             setCategories(r.data.map(i => {
-                return {'value': i.id, 'label': i.name, 'selected': i.id === job.category.id}
+                return {'value': i.id, 'label': i.name, 'selected': i.id === job.category?.id}
             }))
         })
         axios.get(`${api_root}company/?user_id=${user_id()}`).then(r => {
             setCompanies(r.data.map(i => {
-                return {'value': i.id, 'label': i.name, 'selected': i.id === job.company.id}
+                return {'value': i.id, 'label': i.name, 'selected': i.id === job.company?.id}
             }))
         })
         axios.get(`${api_root}skill/?user_id=${user_id()}`).then(r => {
             setSkills(r.data.map(i => {
-                return {'value': i.id, 'label': i.name, 'selected': job.skills.map(s=>s.id).includes(i.id)}
+                return {'value': i.id, 'label': i.name, 'selected': job.skills?.map(s => s.id).includes(i.id)}
             }))
         })
-    }, [reset, api_root, job.category.id, job.company.id, job.skills, props.match.params.id])
-    console.log(categories)
-    console.log(companies)
-    console.log('skills = ',skills)
-
+    }, [reset, api_root, job.category?.id, job.company?.id, job.skills, props.match.params.id])
     const onSubmit = async (data) => {
         data['description'] = description
         update(
@@ -85,6 +84,7 @@ const JobUpdate = (props) => {
                                                 register={register}
                                                 errors={errors}
                                             />
+                                            <i></i>
                                         </div>
 
                                         <div className="col-6">
