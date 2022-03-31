@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import IconButton from "../../../components/button/IconButton";
 import Table from "../../../components/table/Table";
 import Badge from "../../../components/badge/Badge";
+import {user_id} from "../../../utils/storage";
 
 const tableHead = [
     'id',
@@ -29,7 +30,7 @@ const renderHead = (item, index) => <th key={index}>{item.replaceAll('_', ' ')}<
 const Jobs = () => {
     const [jobList, setState] = useState([])
     useEffect(() => {
-        axios.get(`/job/`)
+        axios.get(`/job/?user_id=${user_id()}`)
             .then((response) => {
                 setState(response.data);
             })

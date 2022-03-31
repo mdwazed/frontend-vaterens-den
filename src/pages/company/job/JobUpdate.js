@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import axios from "axios";
-import {update} from "../../../utils/actions";
 import FormInput from "../../../components/form/form_input/FormInput";
 import SelectInput from "../../../components/form/form_input/SelectInput";
 import {Editor} from "@tinymce/tinymce-react";
 import Button from "../../../components/button/Button";
 import {useHistory} from "react-router-dom";
 import {user_id} from "../../../utils/storage";
+import Swal from "sweetalert2";
 
 const JobUpdate = (props) => {
     const {
@@ -56,13 +56,24 @@ const JobUpdate = (props) => {
             }))
         })
     }, [reset, api_root, job.category?.id, job.company?.id, job.skills, props.match.params.id])
+    console.log(job)
     const onSubmit = async (data) => {
         data['description'] = description
-        update(
-            data, `${api_root}job/${props.match.params.id}/`
-        ).then(() => {
-            history.push('/employer/jobs')
+        await axios.put(`${api_root}job/${props.match.params.id}/?user_id=${user_id()}`, data).then((res) => {
+            Swal.fire(
+                'Success!',
+                'Updated successfully',
+                'success'
+            ).then(() => {
+                if (res.status === 200) history.push('/employer/jobs')
+            })
         })
+            .catch(function (error) {
+                let message = ''
+                let keys = Object.keys(error.response.data)
+                for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
+                Swal.fire('Error', message, 'error')
+            })
     };
     return (
         <div>
@@ -149,6 +160,7 @@ const JobUpdate = (props) => {
                                                 register={register}
                                                 errors={errors}
                                                 options={categories}
+                                                defaultValue={job.category?.id}
                                             />
                                         </div>
                                         <div className="col-4">
@@ -168,6 +180,7 @@ const JobUpdate = (props) => {
                                                 register={register}
                                                 errors={errors}
                                                 options={companies}
+                                                defaultValue={job.company?.id}
                                             />
                                         </div>
                                         <div className="col-6">
@@ -177,6 +190,7 @@ const JobUpdate = (props) => {
                                                 errors={errors}
                                                 options={skills}
                                                 multiple={'multiple'}
+                                                defaultValue={job.key_skills?.map(s => s.id)}
                                             />
                                         </div>
                                     </div>

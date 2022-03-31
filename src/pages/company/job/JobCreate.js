@@ -2,14 +2,13 @@ import React, {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 
 import {useHistory} from "react-router-dom";
-import {create} from "../../../utils/actions";
 import FormInput from "../../../components/form/form_input/FormInput";
 import Button from "../../../components/button/Button";
 import SelectInput from "../../../components/form/form_input/SelectInput";
-import './JobCreate.css'
 import {Editor} from "@tinymce/tinymce-react";
 import axios from "axios";
 import {user_id} from "../../../utils/storage";
+import Swal from "sweetalert2";
 
 const CreateUser = () => {
 
@@ -30,32 +29,42 @@ const CreateUser = () => {
     }
     let api_root = process.env.REACT_APP_API_ROOT_V1
 
-    useEffect(()=>{
+    useEffect(() => {
         axios.get(`${api_root}category/?user_id=${user_id()}`).then(r => {
-            setCategories(r.data.map(i=> {
+            setCategories(r.data.map(i => {
                 return {'value': i.id, 'label': i.name}
             }))
         })
         axios.get(`${api_root}company/?user_id=${user_id()}`).then(r => {
-            setCompanies(r.data.map(i=> {
+            setCompanies(r.data.map(i => {
                 return {'value': i.id, 'label': i.name}
             }))
         })
         axios.get(`${api_root}skill/?user_id=${user_id()}`).then(r => {
-            setSkills(r.data.map(i=> {
+            setSkills(r.data.map(i => {
                 return {'value': i.id, 'label': i.name}
             }))
         })
     }, [api_root])
-
+    console.log(categories)
+    console.log(companies)
     const onSubmit = async (data) => {
         data['description'] = description
-        console.log(data)
-        await create(
-            data, `${process.env.REACT_APP_API_ROOT_V1}job/`
-        ).then(() => {
-            history.push('/employer/jobs')
+        await axios.post(`${process.env.REACT_APP_API_ROOT_V1}job/?user_id=${user_id()}`, data).then((res) => {
+            Swal.fire(
+                'Success!',
+                'Created successfully',
+                'success'
+            ).then(() => {
+                if (res.status === 200) history.push('/employer/jobs')
+            })
         })
+            .catch(function (error) {
+                let message = ''
+                let keys = Object.keys(error.response.data)
+                for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
+                Swal.fire('Error', message, 'error')
+            })
     };
 
     return (

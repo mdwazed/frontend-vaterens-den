@@ -65,7 +65,6 @@ const CRUD = (props) => {
     useEffect(() => {
         axios.get(list_url).then((response) => {
             setState(response.data)
-            console.log(response.data, list_url)
         })
     }, [list_url])
 
@@ -103,7 +102,6 @@ const CRUD = (props) => {
         </tr>
     )
     const getFormData = (data) => {
-        console.log(fileFields?.length, fileFields?.length > 0)
         if (fileFields?.length > 0) {
             const formData = new FormData()
             headData.forEach(field => {

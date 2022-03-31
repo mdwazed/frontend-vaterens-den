@@ -13,7 +13,6 @@ const UserDetail = (props) => {
             setUser(response.data)
         })
     }, [user_id])
-    console.log(user)
     if (!user.full_name ) return <div>
         <Oval
             ariaLabel="loading-indicator"
@@ -80,9 +79,9 @@ const UserDetail = (props) => {
                                                     <h5>All CV </h5>
                                                     <div className="list-group w-100">
                                                         {user.cv_list.map((c) => {
-                                                            return <Link key={c.id} to={`/employee/cv/${c.id}/detail`} className="list-group-item list-group-item-action  border-0">
+                                                            return <a key={c.id} target={'_blank'} rel={'noreferrer noopener'} href={c.resume} className="list-group-item list-group-item-action  border-0">
                                                                 {c.name}  <span className="badge badge-secondary float-right">12 <i className="fa fa-eye" /></span>
-                                                            </Link>
+                                                            </a>
                                                         })}
                                                     </div>
                                                 </div>
