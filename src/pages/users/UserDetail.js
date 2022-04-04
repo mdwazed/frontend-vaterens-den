@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import './UserDetail.css'
 import axios from "axios";
-import {Link} from "react-router-dom";
 import {Oval} from "react-loader-spinner";
 
 const UserDetail = (props) => {

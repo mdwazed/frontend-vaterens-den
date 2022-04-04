@@ -1,52 +1,29 @@
-import axios from "axios";
+import {set, remove, get_key_from_url, local_update, get_all} from "./storage";
+import {axios_create, axios_delete, axios_get, axios_put} from "./axios_actions";
 import Swal from "sweetalert2";
 
+export const use_local_storage = process.env.REACT_APP_USE_LOCAL
+
+export const loadData = (url, setState) => {
+    if (use_local_storage) {
+        return setState(get_all(get_key_from_url(url)))
+    }
+    return axios_get(url, setState)
+}
 export const create = (data, url, listUrl, setState, setShow) => {
-    return axios.post(url, data).then((res) => {
-        Swal.fire(
-            'Success!',
-            'Created successfully',
-            'success'
-        ).then(() => {
-            if (listUrl && setState) {
-                axios.get(listUrl).then(res => {
-                    setState(res.data)
-                })
-            }
-            if (setShow) setShow(false)
-        })
-    })
-        .catch(function (error) {
-            let message = ''
-            let keys = Object.keys(error.response.data)
-            for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
-            Swal.fire('Error', message, 'error')
-        })
-
-
+    if (use_local_storage) {
+        setShow(false)
+        return setState(set(get_key_from_url(url), data))
+    }
+    return axios_create(data, url, listUrl, setState, setShow)
 }
 
 export const update = (data, url, listUrl, setState, setShow) => {
-    return axios.put(url, data).then((res) => {
-        Swal.fire(
-            'Success!',
-            'Updated successfully',
-            'success'
-        ).then(() => {
-            if (listUrl && setState) {
-                axios.get(listUrl).then(res => {
-                    setState(res.data)
-                })
-            }
-            if (setShow) setShow(false)
-        })
-    })
-        .catch(function (error) {
-            let message = ''
-            let keys = Object.keys(error.response?.data)
-            for (let i = 0; i < keys.length; i++) message += `${error.response?.data[keys[i]][0]}<br>`
-            Swal.fire('Error', message, 'error')
-        })
+    if (use_local_storage) {
+        setShow(false)
+        return setState(local_update(get_key_from_url(listUrl), data))
+    }
+    return axios_put(data, url, listUrl, setState, setShow)
 }
 
 export const Delete = (url, id, listUrl, setState) => {
@@ -58,26 +35,10 @@ export const Delete = (url, id, listUrl, setState) => {
         confirmButtonColor: 'red'
     }).then((result) => {
         if (result.isConfirmed) {
-            axios.delete(url).then(() => {
-                Swal.fire(
-                    'Delete!',
-                    'Deleted successfully',
-                    'success'
-                ).then(() => {
-                    if (listUrl && setState) {
-                        axios.get(listUrl).then(res => {
-                            setState(res.data)
-                        })
-                    }
-                })
-            }).catch(function (error) {
-                let message = ''
-                let keys = Object.keys(error.response.data)
-                for (let i = 0; i < keys.length; i++) message += `${error.response.data[keys[i]][0]}<br>`
-                Swal.fire('Error', message, 'error')
-            });
+            if (use_local_storage) {
+                return setState(remove(get_key_from_url(listUrl), id))
+            }
+            return axios_delete(url, id, listUrl, setState)
         }
     })
-
-
 }

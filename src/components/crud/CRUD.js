@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
-import {create, Delete, update} from "../../utils/actions";
+import {create, Delete, loadData, update, use_local_storage} from "../../utils/actions";
 import ModalForm from "../modal/ModalForm";
 import {Link} from "react-router-dom";
 import IconButton from "../button/IconButton";
 import {Button} from "react-bootstrap";
 import Table from "../table/Table";
 import Badge from "../badge/Badge";
+import {get_one} from "../../utils/storage";
+import {axios_get_one} from "../../utils/axios_actions";
 
 const renderHead = (item, index) => <th key={index}>{item.replaceAll('_', ' ')}</th>
 const CRUD = (props) => {
@@ -51,21 +52,20 @@ const CRUD = (props) => {
         setShow(true)
         setCreate(false)
         setUpdateUrl(update_url(id))
-        axios.get(update_url(id)).then((response) => {
-            reset(response.data)
+        if (use_local_storage) {
+            let data = get_one(list_url, id)
+            reset(data)
             if (fileFields?.length > 0) {
                 let values = []
                 fileFields?.map(file => {
-                    return values.push(response.data[file])
+                    return values.push(data[file])
                 })
                 setFileFields(values)
             }
-        })
+        } else axios_get_one(update_url(id), reset, fileFields, setFileFields)
     }
     useEffect(() => {
-        axios.get(list_url).then((response) => {
-            setState(response.data)
-        })
+        loadData(list_url, setState)
     }, [list_url])
 
     const delete_cv = (id) => {
